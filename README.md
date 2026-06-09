@@ -1,59 +1,177 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Panduan Instalasi & Setup (Bahasa Indonesia)
 
-## About Laravel
+Panduan ini menjelaskan langkah demi langkah untuk menjalankan proyek ini secara lokal, termasuk konfigurasi Midtrans, pembuatan akun admin, build Tailwind, dan tips debugging.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+1) Prasyarat
+- PHP >= 8.1 terinstal dan tersedia di PATH
+- Composer terinstal
+- Node.js & npm (untuk build CSS/JS)
+- Database (MySQL / SQLite) — sesuaikan `DB_CONNECTION` di `.env`
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+2) Clone & Install
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+```bash
+git clone <repo> mbooking
+cd mbooking
+composer install
+npm install
+```
 
-## Learning Laravel
+3) Salin file environment
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+```bash
+cp .env.example .env
+php artisan key:generate
+```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Isi `.env` minimal (contoh):
 
-## Laravel Sponsors
+```
+APP_NAME="mBooking"
+APP_ENV=local
+APP_DEBUG=true
+APP_URL=http://localhost:8000
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+DB_CONNECTION=sqlite
+# atau konfigurasi MySQL
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=homestead
+DB_USERNAME=homestead
+DB_PASSWORD=secret
 
-### Premium Partners
+MIDTRANS_SERVER_KEY=YOUR_SANDBOX_SERVER_KEY
+MIDTRANS_CLIENT_KEY=YOUR_SANDBOX_CLIENT_KEY
+MIDTRANS_IS_PRODUCTION=false
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.mailtrap.io
+MAIL_PORT=2525
+MAIL_USERNAME=null
+MAIL_PASSWORD=null
+MAIL_ENCRYPTION=null
+```
 
-## Contributing
+Catatan: Jangan commit `.env` ke repository.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+4) Migrasi dan seeder (buat tabel + data awal)
 
-## Code of Conduct
+```bash
+php artisan migrate
+php artisan db:seed --class=KamarSeeder
+php artisan db:seed
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+5) Buat akun admin
 
-## Security Vulnerabilities
+Opsi A — via seeder: sesuaikan `DatabaseSeeder` untuk membuat user admin dan jalankan seeder.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Opsi B — via Tinker (cepat):
 
-## License
+```bash
+php artisan tinker
+>>> \App\Models\User::create([ 'name' => 'Admin', 'email' => 'admin@example.com', 'password' => bcrypt('ChangeMe123!'), 'role' => 'admin' ]);
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Contoh kredensial (contoh — UBAH setelah login):
+- Email: `admin@example.com`
+- Password: `ChangeMe123!`
+
+6) Storage & cache
+
+```bash
+php artisan storage:link
+php artisan config:clear
+php artisan route:clear
+php artisan view:clear
+```
+
+7) Build Tailwind / Frontend
+
+Rekomendasi (Vite): jalankan build dev untuk development:
+
+```bash
+npm run dev
+```
+
+Untuk production build (minimal):
+
+```bash
+npm run build
+```
+
+Atau jika Anda ingin cepat tanpa Vite, gunakan Tailwind CLI:
+
+```bash
+npx tailwindcss -i ./resources/css/app.css -o ./public/css/tailwind.css --minify
+```
+
+Setelah build, pastikan layout Anda memuat file CSS yang dihasilkan (ganti CDN `dn.tailwindcss.com` dengan file lokal).
+
+8) Menjalankan server lokal & HTTPS untuk Midtrans Snap
+
+Midtrans Snap bekerja paling baik pada origin `localhost` atau HTTPS. Jika Anda mengakses via LAN IP (mis. `http://192.168.x.y`) Snap dapat menyebabkan postMessage origin error.
+
+Saran cepat (ngrok):
+
+```bash
+php artisan serve --host=0.0.0.0 --port=8000
+ngrok http 8000
+```
+
+Buka URL HTTPS dari ngrok untuk menguji Snap.
+
+9) Pengaturan Midtrans (Sandbox)
+
+- Dapatkan `server key` dan `client key` dari Midtrans Dashboard (sandbox)
+- Masukkan ke `.env` (`MIDTRANS_SERVER_KEY`, `MIDTRANS_CLIENT_KEY`)
+- Pastikan `MIDTRANS_IS_PRODUCTION=false` untuk sandbox
+- Setelah konfigurasi, jalankan `php artisan config:clear`
+
+10) Alur pembayaran dan debugging
+
+- Halaman checkout sekarang membuka Midtrans Snap modal secara langsung (AJAX).
+- Untuk pembayaran `bank_transfer` Midtrans biasanya mengembalikan `transaction_status: pending` dan `va_numbers` — skrip frontend akan menampilkan nomor VA di modal.
+- Jika modal menampilkan JSON mentah, periksa Network tab pada DevTools untuk response endpoint `POST /payment/{id}/pay` dan pastekan di log bila perlu.
+- Cek `storage/logs/laravel.log` untuk error server-side.
+
+11) Notifikasi & IPN
+
+- Endpoint Midtrans notification sudah tersedia (`PaymentController@notification`). Pastikan `MIDTRANS_SERVER_KEY` benar agar verifikasi berjalan.
+- Untuk pengujian IPN, gunakan fitur Webhook/Notification simulator di Midtrans dashboard atau curl ke endpoint notification.
+
+12) Menampilkan QR / Tiket
+
+- Setelah pembayaran sukses, halaman `reservation.success` menampilkan QR code yang bisa dicetak oleh tamu.
+
+13) Keamanan dan produksi
+
+- Jangan gunakan kredensial contoh di produksi.
+- Ganti `APP_KEY`, `MIDTRANS_*` production keys, dan aktifkan HTTPS.
+- Lindungi kunci API dengan environment variables dan jangan commit kunci ke repo.
+
+14) Perintah berguna
+
+```bash
+composer install
+npm install
+php artisan migrate --seed
+php artisan serve
+npm run dev
+ngrok http 8000
+tail -f storage/logs/laravel.log
+```
+
+15) Troubleshooting singkat
+
+- Error Snap postMessage origin: gunakan `localhost` atau HTTPS via ngrok.
+- Tailwind CDN warning: hapus `dn.tailwindcss.com` dan build Tailwind secara lokal.
+- Midtrans error: cek `storage/logs/laravel.log` dan `MIDTRANS_SERVER_KEY`/`MIDTRANS_CLIENT_KEY`.
+
+Jika Anda mau, saya bisa:
+- Menambahkan skrip `npm` di `package.json` untuk build Tailwind cepat, dan
+- Menambahkan paragraf singkat di dashboard Midtrans untuk set `finish_redirect_url` ke URL ngrok Anda.
+
+--
+Dokumentasi ini dibuat untuk memudahkan pengujian dan deployment lokal. Pastikan mengganti semua kredensial contoh sebelum deploy ke production.

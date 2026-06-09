@@ -28,7 +28,17 @@ class PaymentController extends Controller
     public function pay(Request $request, $id)
     {
         $reservation = Reservasi::findOrFail($id);
-        $method = $request->input('payment_method', 'bank_transfer');
+        $method = $request->input('payment_method', 'snap');
+        $bank = $request->input('bank', 'bca');
+
+        // Basic Midtrans keys sanity check to avoid calling SDK with placeholder values
+        $serverKey = env('MIDTRANS_SERVER_KEY');
+        $clientKey = env('MIDTRANS_CLIENT_KEY');
+        $midtransConfigured = ! empty($serverKey) && ! empty($clientKey) && stripos($serverKey, 'your_') === false && stripos($clientKey, 'your_') === false;
+        if (! $midtransConfigured && (class_exists('Midtrans\\Snap') || class_exists('Midtrans\\Transaction')) ) {
+            // If user tried to pay with Midtrans-enabled flow but keys are not set, return with user-friendly error
+            return redirect()->route('payment.checkout', ['id' => $reservation->id])->withErrors(['midtrans' => 'Midtrans keys not configured. Set MIDTRANS_SERVER_KEY and MIDTRANS_CLIENT_KEY in your .env (sandbox keys for testing).']);
+        }
 
         // If Midtrans PHP library is available and server key provided, use Snap
         if (class_exists('Midtrans\\Snap') && env('MIDTRANS_SERVER_KEY')) {
@@ -59,6 +69,38 @@ class PaymentController extends Controller
                     ]],
                 ];
 
+                // If bank transfer selected, create a direct charge to produce VA immediately
+                if ($method === 'bank_transfer') {
+                    try {
+                        $chargeParams = $params;
+                        // Midtrans expects payment_type and bank details for VA
+                        $chargeParams['payment_type'] = 'bank_transfer';
+                        // use selected bank from the request
+                        $chargeParams['bank_transfer'] = ['bank' => $bank];
+
+                        $chargeResponse = \Midtrans\Transaction::charge($chargeParams);
+                        // Save provider order id if returned
+                        if (! empty($chargeResponse->order_id)) {
+                            $reservation->payment_id = $chargeResponse->order_id;
+                            $reservation->save();
+                        }
+
+                        // If VA numbers returned, return VA details (JSON for AJAX or view for regular)
+                        if (! empty($chargeResponse->va_numbers) || ! empty($chargeResponse->permata_va_number)) {
+                            if ($request->ajax() || $request->wantsJson()) {
+                                $chargeArray = json_decode(json_encode($chargeResponse), true);
+                                return response()->json(['va' => $chargeArray, 'reservation' => $reservation]);
+                            }
+                            return view('payment.va', ['reservation' => $reservation, 'charge' => $chargeResponse]);
+                        }
+
+                        // fallback to Snap token if charge didn't yield VA
+                    } catch (\Throwable $e) {
+                        Log::error('Midtrans charge failed: ' . $e->getMessage());
+                        // continue to Snap fallback
+                    }
+                }
+
                 // Limit payment types for Snap if method is specific
                 if ($method === 'bank_transfer') {
                     $params['enabled_payments'] = ['bank_transfer'];
@@ -68,6 +110,9 @@ class PaymentController extends Controller
 
                 $snapToken = \Midtrans\Snap::getSnapToken($params);
                 $clientKey = env('MIDTRANS_CLIENT_KEY');
+                if ($request->ajax() || $request->wantsJson()) {
+                    return response()->json(['snapToken' => $snapToken, 'clientKey' => $clientKey]);
+                }
                 return view('payment.snap', compact('reservation', 'snapToken', 'clientKey'));
             } catch (\Throwable $e) {
                 Log::error('Midtrans Snap generation failed: ' . $e->getMessage());

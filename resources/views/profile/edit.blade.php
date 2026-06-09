@@ -15,7 +15,7 @@
             </div>
         @endif
         @if (session('status'))
-            <div class="bg-emerald-50 border border-emerald-100 text-emerald-700 p-4 rounded mb-4">{{ session('status') }}</div>
+            <div class="bg-purple-50 border border-purple-100 text-purple-700 p-4 rounded mb-4">{{ session('status') }}</div>
         @endif
 
         <form method="POST" action="{{ route('profile.update') }}">
@@ -55,7 +55,7 @@
             </div>
 
             <div class="mt-6 flex items-center gap-3">
-                <button type="submit" class="bg-emerald-600 text-white px-4 py-2 rounded font-semibold">Simpan Perubahan</button>
+                <button type="submit" class="bg-purple-600 text-white px-4 py-2 rounded font-semibold">Simpan Perubahan</button>
                 <a href="/" class="text-sm text-gray-500">Batal</a>
             </div>
         </form>

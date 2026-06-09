@@ -11,7 +11,7 @@
             <p class="text-sm text-gray-500 mt-1">Ringkasan aktivitas dan operasional hotel hari ini.</p>
         </div>
         <div class="bg-white px-4 py-2 rounded-lg border border-gray-200 shadow-sm flex items-center gap-2 text-sm font-medium text-gray-600">
-            <svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+            <svg class="w-5 h-5 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
             {{ \Carbon\Carbon::now()->translatedFormat('l, d F Y') }}
         </div>
     </div>
@@ -25,10 +25,10 @@
             <!-- Dua Kartu Statistik -->
             <div class="grid grid-cols-2 gap-4">
                 <!-- Total Reservasi (Di-highlight hijau) -->
-                <div class="bg-emerald-600 p-5 rounded-2xl shadow-sm shadow-emerald-200 text-white relative overflow-hidden">
-                    <svg class="absolute -right-4 -bottom-4 w-24 h-24 text-emerald-500 opacity-50" fill="currentColor" viewBox="0 0 20 20"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path><path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"></path></svg>
+                <div class="bg-purple-600 p-5 rounded-2xl shadow-sm shadow-purple-200 text-white relative overflow-hidden">
+                    <svg class="absolute -right-4 -bottom-4 w-24 h-24 text-purple-500 opacity-50" fill="currentColor" viewBox="0 0 20 20"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path><path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"></path></svg>
                     <div class="relative">
-                        <p class="text-emerald-100 text-xs font-semibold uppercase tracking-wide mb-1">Total Reservasi</p>
+                        <p class="text-purple-100 text-xs font-semibold uppercase tracking-wide mb-1">Total Reservasi</p>
                         <h2 class="text-4xl font-black">{{ $totalReservations }}</h2>
                     </div>
                 </div>
@@ -46,28 +46,28 @@
             <!-- Panel Tindakan Cepat -->
             <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-5 flex-1">
                 <h3 class="text-sm font-bold text-gray-800 mb-4 uppercase tracking-wide flex items-center gap-2">
-                    <svg class="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    <svg class="w-4 h-4 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
                     Jalan Pintas
                 </h3>
                 <div class="flex flex-col gap-3">
-                    <a href="{{ route('admin.reservations.index') }}" class="group flex items-center justify-between p-4 rounded-xl border border-gray-100 hover:border-emerald-500 hover:bg-emerald-50 transition-all bg-gray-50">
+                    <a href="{{ route('admin.reservations.index') }}" class="group flex items-center justify-between p-4 rounded-xl border border-gray-100 hover:border-purple-500 hover:bg-purple-50 transition-all bg-gray-50">
                         <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-emerald-600 shadow-sm group-hover:bg-emerald-500 group-hover:text-white transition-colors">
+                            <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-purple-600 shadow-sm group-hover:bg-purple-500 group-hover:text-white transition-colors">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
                             </div>
-                            <span class="font-bold text-gray-700 group-hover:text-emerald-700">Kelola Reservasi</span>
+                            <span class="font-bold text-gray-700 group-hover:text-purple-700">Kelola Reservasi</span>
                         </div>
-                        <svg class="w-5 h-5 text-gray-400 group-hover:text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                        <svg class="w-5 h-5 text-gray-400 group-hover:text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                     </a>
 
-                    <a href="{{ route('admin.kamar.index') }}" class="group flex items-center justify-between p-4 rounded-xl border border-gray-100 hover:border-emerald-500 hover:bg-emerald-50 transition-all bg-gray-50">
+                    <a href="{{ route('admin.kamar.index') }}" class="group flex items-center justify-between p-4 rounded-xl border border-gray-100 hover:border-purple-500 hover:bg-purple-50 transition-all bg-gray-50">
                         <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-emerald-600 shadow-sm group-hover:bg-emerald-500 group-hover:text-white transition-colors">
+                            <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-purple-600 shadow-sm group-hover:bg-purple-500 group-hover:text-white transition-colors">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
                             </div>
-                            <span class="font-bold text-gray-700 group-hover:text-emerald-700">Manajemen Kamar</span>
+                            <span class="font-bold text-gray-700 group-hover:text-purple-700">Manajemen Kamar</span>
                         </div>
-                        <svg class="w-5 h-5 text-gray-400 group-hover:text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                        <svg class="w-5 h-5 text-gray-400 group-hover:text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                     </a>
                 </div>
             </div>
@@ -78,7 +78,7 @@
             <!-- Header Tabel -->
             <div class="p-5 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
                 <h3 class="text-base font-bold text-gray-800">Reservasi Terbaru Masuk</h3>
-                <a href="{{ route('admin.reservations.index') }}" class="text-xs font-bold text-emerald-600 hover:text-emerald-700">Lihat Semua &rarr;</a>
+                <a href="{{ route('admin.reservations.index') }}" class="text-xs font-bold text-purple-600 hover:text-purple-700">Lihat Semua &rarr;</a>
             </div>
 
             <!-- Area Internal Scroll untuk mencegah layar utama ikut ter-scroll -->
@@ -95,21 +95,21 @@
                         </thead>
                         <tbody class="text-sm divide-y divide-gray-50">
                             @foreach($recentReservations as $r)
-                                <tr class="hover:bg-emerald-50/30 transition-colors">
+                                <tr class="hover:bg-purple-50/30 transition-colors">
                                     <td class="px-5 py-4 font-bold text-gray-800">#{{ $r->id }}</td>
                                     <td class="px-5 py-4 text-gray-600">{{ $r->kamar->name ?? '-' }}</td>
                                     <td class="px-5 py-4">
                                         <!-- Badge Status yang dinamis (Menyesuaikan teks status) -->
                                         <span class="px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider rounded-full border 
                                             {{ strtolower($r->status) == 'pending' ? 'bg-orange-50 text-orange-600 border-orange-100' : 
-                                               (strtolower($r->status) == 'paid' || strtolower($r->status) == 'berhasil' ? 'bg-emerald-50 text-emerald-600 border-emerald-100' : 
+                                               (strtolower($r->status) == 'paid' || strtolower($r->status) == 'berhasil' ? 'bg-purple-50 text-purple-600 border-purple-100' : 
                                                'bg-gray-100 text-gray-600 border-gray-200') }}">
                                             {{ $r->status }}
                                         </span>
                                     </td>
                                     <td class="px-5 py-4 text-right">
                                         <!-- Jika Anda punya route show, bisa pakai ini. Sementara dibuat dummy href="#" -->
-                                        <button class="text-gray-400 hover:text-emerald-600 transition-colors" title="Detail">
+                                        <button class="text-gray-400 hover:text-purple-600 transition-colors" title="Detail">
                                             <svg class="w-5 h-5 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
                                         </button>
                                     </td>

@@ -57,8 +57,47 @@ Route::post('/register', function (Request $request) {
     return redirect()->intended('/booking');
 })->name('register');
 
-Route::get('/kamar', function () {
-    return view('kamar');
+use App\Services\AccorPriceService;
+
+use App\Models\Kamar;
+
+Route::get('/kamar', function (AccorPriceService $accor) {
+    $url = 'https://all.accor.com/booking/id/accor/hotel/9019?dateIn=2026-06-29&nights=1&compositions=1&stayplus=false&snu=false&hideHotelDetails=true&basketId=aefe50c8-aa42-4633-84cf-65eddc65590f';
+
+    $roomKeys = [
+        'superior_king' => 'Kamar Superior dengan 1 tempat tidur king',
+        'superior_twin' => 'Kamar Superior dengan tempat tidur twin',
+        'deluxe' => 'Deluxe Pemandangan Kota dengan 1 tempat tidur king',
+        'business' => 'Suite Bisnis dengan 1 tempat tidur king dan 1 sofa',
+        'suite' => 'Kamar Suite dengan 1 tempat tidur king',
+    ];
+
+    $prices = $accor->fetchPrices($url, $roomKeys);
+
+    // load kamars from DB and map to prices when possible
+    $kamars = Kamar::all();
+    $priceMap = [];
+    foreach ($kamars as $k) {
+        $name = $k->name;
+        $key = null;
+        if (stripos($name, 'Superior') !== false) {
+            if (stripos($name, 'twin') !== false) {
+                $key = 'superior_twin';
+            } else {
+                $key = 'superior_king';
+            }
+        } elseif (stripos($name, 'Deluxe') !== false) {
+            $key = 'deluxe';
+        } elseif (stripos($name, 'Business') !== false || stripos($name, 'Bisnis') !== false) {
+            $key = 'business';
+        } elseif (stripos($name, 'Suite') !== false) {
+            $key = 'suite';
+        }
+
+        $priceMap[$k->id] = $key && isset($prices[$key]) ? $prices[$key] : null;
+    }
+
+    return view('kamar', compact('kamars', 'priceMap', 'prices'));
 })->name('kamar');
 
 // Availability API (used by frontend search)
@@ -92,6 +131,7 @@ Route::get('auth/google/debug', function () {
 });
 Route::post('/reservasi', [ReservationController::class, 'store'])->name('reservation.store');
 Route::get('/reservasi/{id}', [ReservationController::class, 'show'])->name('reservation.show');
+Route::get('/my-reservations', [ReservationController::class, 'index'])->name('reservation.index')->middleware('auth');
 
 // Profile edit for authenticated users
 Route::middleware('auth')->group(function () {

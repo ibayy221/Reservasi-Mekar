@@ -91,4 +91,18 @@ class ReservationController extends Controller
         $reservation = Reservasi::with('kamar')->findOrFail($id);
         return view('reservation_success', compact('reservation'));
     }
+
+    /**
+     * Show list of reservations for the authenticated user
+     */
+    public function index()
+    {
+        $user = auth()->user();
+        $reservations = Reservasi::with('kamar')
+            ->where('user_id', $user->id)
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+
+        return view('reservations.index', compact('reservations'));
+    }
 }

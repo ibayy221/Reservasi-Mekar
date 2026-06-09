@@ -18,7 +18,7 @@
                 <tr class="border-t">
                     <td class="py-3">{{ $k->name }}</td>
                     <td class="py-3">{{ $k->stock }}</td>
-                    <td class="py-3"><a href="{{ route('admin.kamar.edit', $k->id) }}" class="text-emerald-600">Kelola</a></td>
+                    <td class="py-3"><a href="{{ route('admin.kamar.edit', $k->id) }}" class="text-purple-600">Kelola</a></td>
                 </tr>
                 @endforeach
             </tbody>

@@ -17,9 +17,9 @@
         <input type="hidden" name="children" value="{{ $children ?? 0 }}">
 
         <div class="lg:col-span-4 bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden sticky top-6">
-            <div class="bg-emerald-600 p-5 text-white">
+            <div class="bg-purple-600 p-5 text-white">
                 <h3 class="text-lg font-bold">{{ $kamar->name ?? 'Tipe Kamar' }}</h3>
-                <div class="mt-2 text-emerald-100 text-sm flex items-center gap-2">
+                <div class="mt-2 text-purple-100 text-sm flex items-center gap-2">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
                     {{ ($adults ?? 2) }} Dewasa, {{ ($children ?? 0) }} Anak
                 </div>
@@ -41,11 +41,11 @@
                 <div class="mb-4">
                     <h4 class="text-xs font-bold text-gray-400 uppercase mb-2">Fasilitas Termasuk</h4>
                     <div class="flex flex-wrap gap-2">
-                        <span class="px-2.5 py-1 bg-emerald-50 text-emerald-700 text-xs font-medium rounded-md border border-emerald-100">WiFi Gratis</span>
-                        <span class="px-2.5 py-1 bg-emerald-50 text-emerald-700 text-xs font-medium rounded-md border border-emerald-100">AC</span>
-                        <span class="px-2.5 py-1 bg-emerald-50 text-emerald-700 text-xs font-medium rounded-md border border-emerald-100">TV</span>
-                        <span class="px-2.5 py-1 bg-emerald-50 text-emerald-700 text-xs font-medium rounded-md border border-emerald-100">Sarapan</span>
-                        <span class="px-2.5 py-1 bg-emerald-50 text-emerald-700 text-xs font-medium rounded-md border border-emerald-100">Kolam Renang</span>
+                        <span class="px-2.5 py-1 bg-purple-50 text-purple-700 text-xs font-medium rounded-md border border-purple-100">WiFi Gratis</span>
+                        <span class="px-2.5 py-1 bg-purple-50 text-purple-700 text-xs font-medium rounded-md border border-purple-100">AC</span>
+                        <span class="px-2.5 py-1 bg-purple-50 text-purple-700 text-xs font-medium rounded-md border border-purple-100">TV</span>
+                        <span class="px-2.5 py-1 bg-purple-50 text-purple-700 text-xs font-medium rounded-md border border-purple-100">Sarapan</span>
+                        <span class="px-2.5 py-1 bg-purple-50 text-purple-700 text-xs font-medium rounded-md border border-purple-100">Kolam Renang</span>
                     </div>
                     @if(!empty($kamar->description))
                         <p class="text-xs text-gray-500 mt-3 line-clamp-2">{{ $kamar->description }}</p>
@@ -72,38 +72,38 @@
                 </div>
             @endif
             @if(session('status'))
-                <div class="bg-emerald-50 border border-emerald-100 text-emerald-700 p-4 rounded">{{ session('status') }}</div>
+                <div class="bg-purple-50 border border-purple-100 text-purple-700 p-4 rounded">{{ session('status') }}</div>
             @endif
             
             <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100">
                 <h4 class="text-base font-bold text-gray-800 mb-4 flex items-center gap-2">
-                    <span class="w-6 h-6 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-sm">1</span> 
+                    <span class="w-6 h-6 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center text-sm">1</span> 
                     Informasi Tamu
                 </h4>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div class="md:col-span-2">
                         <label class="block text-xs font-semibold text-gray-600 mb-1">NIK / Nomor KTP</label>
-                        <input type="text" name="nik_ktp" value="{{ old('nik_ktp', auth()->user()->nik_ktp ?? '') }}" class="w-full border border-gray-200 px-4 py-2.5 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all text-sm" placeholder="Nomor KTP" required>
+                            <input type="text" name="nik_ktp" value="{{ old('nik_ktp', auth()->user()->nik_ktp ?? '') }}" class="w-full border border-gray-200 px-4 py-2.5 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all text-sm" placeholder="Nomor KTP" required>
                     </div>
                     <div class="md:col-span-2">
                         <label class="block text-xs font-semibold text-gray-600 mb-1">Nama Lengkap Sesuai KTP</label>
-                        <input type="text" name="name" value="{{ old('name', auth()->user()->name ?? '') }}" class="w-full border border-gray-200 px-4 py-2.5 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all text-sm" placeholder="Masukkan nama lengkap" required>
+                            <input type="text" name="name" value="{{ old('name', auth()->user()->name ?? '') }}" class="w-full border border-gray-200 px-4 py-2.5 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all text-sm" placeholder="Masukkan nama lengkap" required>
                     </div>
                     <div>
                         <label class="block text-xs font-semibold text-gray-600 mb-1">Alamat Email</label>
-                        <input type="email" name="email" value="{{ old('email', auth()->user()->email ?? '') }}" class="w-full border border-gray-200 px-4 py-2.5 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all text-sm" placeholder="email@contoh.com" required>
+                            <input type="email" name="email" value="{{ old('email', auth()->user()->email ?? '') }}" class="w-full border border-gray-200 px-4 py-2.5 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all text-sm" placeholder="email@contoh.com" required>
                     </div>
                     <div>
                         <label class="block text-xs font-semibold text-gray-600 mb-1">Nomor Telepon / WhatsApp</label>
-                        <input type="tel" name="phone" value="{{ old('phone', auth()->user()->no_hp ?? '') }}" class="w-full border border-gray-200 px-4 py-2.5 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all text-sm" placeholder="0812xxxxxx">
+                            <input type="tel" name="phone" value="{{ old('phone', auth()->user()->no_hp ?? '') }}" class="w-full border border-gray-200 px-4 py-2.5 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all text-sm" placeholder="0812xxxxxx">
                     </div>
                 </div>
             </div>
 
             <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100">
                 <h4 class="text-base font-bold text-gray-800 mb-4 flex items-center gap-2">
-                    <span class="w-6 h-6 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-sm">2</span> 
-                    Preferensi Menginap
+                    <span class="w-6 h-6 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center text-sm">2</span> 
+                        Preferensi Menginap
                 </h4>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -112,13 +112,13 @@
                         <div class="grid grid-cols-2 gap-3">
                             <label class="cursor-pointer">
                                 <input type="radio" name="smoking_preference" value="non-smoking" class="peer sr-only" checked>
-                                <div class="text-center px-3 py-2 text-sm border border-gray-200 rounded-lg peer-checked:bg-emerald-50 peer-checked:border-emerald-500 peer-checked:text-emerald-700 hover:bg-gray-50 transition-all font-medium">
+                                <div class="text-center px-3 py-2 text-sm border border-gray-200 rounded-lg peer-checked:bg-purple-50 peer-checked:border-purple-500 peer-checked:text-purple-700 hover:bg-gray-50 transition-all font-medium">
                                     Non-Smoking
                                 </div>
                             </label>
                             <label class="cursor-pointer">
                                 <input type="radio" name="smoking_preference" value="smoking" class="peer sr-only">
-                                <div class="text-center px-3 py-2 text-sm border border-gray-200 rounded-lg peer-checked:bg-emerald-50 peer-checked:border-emerald-500 peer-checked:text-emerald-700 hover:bg-gray-50 transition-all font-medium">
+                                <div class="text-center px-3 py-2 text-sm border border-gray-200 rounded-lg peer-checked:bg-purple-50 peer-checked:border-purple-500 peer-checked:text-purple-700 hover:bg-gray-50 transition-all font-medium">
                                     Smoking
                                 </div>
                             </label>
@@ -130,13 +130,13 @@
                         <div class="grid grid-cols-2 gap-3">
                             <label class="cursor-pointer">
                                 <input type="radio" name="bed_setup" value="large" class="peer sr-only" checked>
-                                <div class="text-center px-3 py-2 text-sm border border-gray-200 rounded-lg peer-checked:bg-emerald-50 peer-checked:border-emerald-500 peer-checked:text-emerald-700 hover:bg-gray-50 transition-all font-medium">
+                                <div class="text-center px-3 py-2 text-sm border border-gray-200 rounded-lg peer-checked:bg-purple-50 peer-checked:border-purple-500 peer-checked:text-purple-700 hover:bg-gray-50 transition-all font-medium">
                                     1 Kasur Besar
                                 </div>
                             </label>
                             <label class="cursor-pointer">
                                 <input type="radio" name="bed_setup" value="twin" class="peer sr-only">
-                                <div class="text-center px-3 py-2 text-sm border border-gray-200 rounded-lg peer-checked:bg-emerald-50 peer-checked:border-emerald-500 peer-checked:text-emerald-700 hover:bg-gray-50 transition-all font-medium">
+                                <div class="text-center px-3 py-2 text-sm border border-gray-200 rounded-lg peer-checked:bg-purple-50 peer-checked:border-purple-500 peer-checked:text-purple-700 hover:bg-gray-50 transition-all font-medium">
                                     2 Kasur (Twin)
                                 </div>
                             </label>
@@ -145,12 +145,12 @@
 
                     <div class="md:col-span-2">
                         <label class="block text-xs font-semibold text-gray-600 mb-1">Catatan Tambahan (Opsional)</label>
-                        <textarea name="special_requests" rows="2" class="w-full border border-gray-200 px-4 py-2 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all text-sm resize-none" placeholder="Contoh: Lantai atas, dekat lift, minta tambahan handuk..."></textarea>
+                        <textarea name="special_requests" rows="2" class="w-full border border-gray-200 px-4 py-2 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all text-sm resize-none" placeholder="Contoh: Lantai atas, dekat lift, minta tambahan handuk..."></textarea>
                     </div>
                 </div>
             </div>
 
-            <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3.5 px-6 rounded-xl shadow-lg shadow-emerald-200 transition-all transform active:scale-[0.99] flex justify-center items-center gap-2">
+            <button type="submit" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3.5 px-6 rounded-xl shadow-lg shadow-purple-200 transition-all transform active:scale-[0.99] flex justify-center items-center gap-2">
                 Konfirmasi Pesanan Sekarang
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
             </button>

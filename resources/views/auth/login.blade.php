@@ -13,7 +13,7 @@
         <form action="{{ route('login') }}" method="POST" class="space-y-5">
             @csrf
             @if (session('status'))
-                <div class="p-3 rounded-md bg-emerald-50 text-emerald-700 text-sm">{{ session('status') }}</div>
+                <div class="p-3 rounded-md bg-purple-50 text-purple-700 text-sm">{{ session('status') }}</div>
             @endif
 
             @if ($errors->any())
@@ -28,26 +28,26 @@
             <div>
                 <label class="block text-xs font-semibold uppercase tracking-wider text-gray-500 mb-2">Alamat Email</label>
                 <input type="email" name="email" value="{{ old('email') }}" required placeholder="nama@email.com" 
-                    class="w-full bg-gray-50 border border-gray-200 p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm font-medium transition duration-150">
+                    class="w-full bg-gray-50 border border-gray-200 p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 text-sm font-medium transition duration-150">
             </div>
 
             <div>
                 <div class="flex justify-between items-center mb-2">
                     <label class="block text-xs font-semibold uppercase tracking-wider text-gray-500">Kata Sandi</label>
-                    <a href="#" class="text-xs text-emerald-600 hover:underline">Lupa Password?</a>
+                    <a href="#" class="text-xs text-purple-600 hover:underline">Lupa Password?</a>
                 </div>
                 <input type="password" name="password" required placeholder="••••••••" 
-                    class="w-full bg-gray-50 border border-gray-200 p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm font-medium transition duration-150">
+                    class="w-full bg-gray-50 border border-gray-200 p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 text-sm font-medium transition duration-150">
             </div>
 
             <div class="flex items-center gap-3">
-                <input id="remember" type="checkbox" name="remember" class="h-4 w-4 text-emerald-600">
+                <input id="remember" type="checkbox" name="remember" class="h-4 w-4 text-purple-600">
                 <label for="remember" class="text-sm text-gray-600">Ingat saya</label>
             </div>
 
             <!-- Tombol Masuk -->
             <button type="submit" 
-                class="w-full bg-emerald-500 hover:bg-emerald-600 text-white p-3 rounded-xl font-bold shadow-lg shadow-emerald-500/20 transition duration-200 text-sm">
+                class="w-full bg-purple-500 hover:bg-purple-600 text-white p-3 rounded-xl font-bold shadow-lg shadow-purple-500/20 transition duration-200 text-sm">
                 Masuk ke Akun
             </button>
         </form>
@@ -62,7 +62,7 @@
         <!-- Footer Form -->
         <p class="text-center text-xs text-gray-500 mt-8">
             Belum punya akun? 
-            <a href="{{ route('register') }}" class="text-emerald-600 font-semibold hover:underline">Daftar Sekarang</a>
+            <a href="{{ route('register') }}" class="text-purple-600 font-semibold hover:underline">Daftar Sekarang</a>
         </p>
     </div>
 </div>

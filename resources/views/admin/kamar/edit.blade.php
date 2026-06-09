@@ -5,7 +5,7 @@
     <h1 class="text-2xl font-bold mb-4">Kelola: {{ $kamar->name }}</h1>
 
     @if(session('status'))
-        <div class="mb-4 p-3 bg-emerald-50 text-emerald-700 rounded">{{ session('status') }}</div>
+        <div class="mb-4 p-3 bg-purple-50 text-purple-700 rounded">{{ session('status') }}</div>
     @endif
 
     <form method="POST" action="{{ route('admin.kamar.update', $kamar->id) }}">
@@ -36,11 +36,11 @@
                     <input type="number" name="override_available[]" class="border p-2 rounded w-24" placeholder="available">
                 </div>
             </div>
-            <button type="button" id="add_override" class="mt-2 inline-block text-emerald-600">+ Tambah override</button>
+            <button type="button" id="add_override" class="mt-2 inline-block text-purple-600">+ Tambah override</button>
         </div>
 
         <div class="flex gap-3">
-            <button class="bg-emerald-500 text-white px-4 py-2 rounded">Simpan</button>
+            <button class="bg-purple-500 text-white px-4 py-2 rounded">Simpan</button>
             <a href="{{ route('admin.kamar.index') }}" class="px-4 py-2 rounded border">Kembali</a>
         </div>
     </form>

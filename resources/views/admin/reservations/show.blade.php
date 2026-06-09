@@ -21,7 +21,7 @@
                     <option value="paid" {{ $reservation->status=='paid'?'selected':'' }}>paid</option>
                     <option value="cancelled" {{ $reservation->status=='cancelled'?'selected':'' }}>cancelled</option>
                 </select>
-                <button class="ml-2 bg-emerald-600 text-white px-3 py-2 rounded">Simpan</button>
+                <button class="ml-2 bg-purple-600 text-white px-3 py-2 rounded">Simpan</button>
             </div>
         </form>
     </div>
