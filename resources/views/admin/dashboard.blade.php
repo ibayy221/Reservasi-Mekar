@@ -37,8 +37,9 @@
                 <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-200 relative overflow-hidden">
                     <svg class="absolute -right-4 -bottom-4 w-24 h-24 text-gray-50 opacity-50" fill="currentColor" viewBox="0 0 20 20"><path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z"></path></svg>
                     <div class="relative">
-                        <p class="text-gray-500 text-xs font-semibold uppercase tracking-wide mb-1">Jumlah Kamar</p>
-                        <h2 class="text-4xl font-black text-gray-800">{{ $roomsCount }}</h2>
+                        <p class="text-gray-500 text-xs font-semibold uppercase tracking-wide mb-1">Kamar Tersedia Hari Ini</p>
+                        <h2 class="text-4xl font-black text-gray-800">{{ $availableUnits }}</h2>
+                        <div class="text-sm text-gray-500 mt-1">Total unit: {{ $roomsUnits }} · {{ $roomsCount }} tipe</div>
                     </div>
                 </div>
             </div>

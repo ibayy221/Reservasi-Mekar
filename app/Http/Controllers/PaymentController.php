@@ -27,9 +27,31 @@ class PaymentController extends Controller
 
     public function pay(Request $request, $id)
     {
-        $reservation = Reservasi::findOrFail($id);
+        $reservation = Reservasi::with('kamar')->findOrFail($id);
         $method = $request->input('payment_method', 'snap');
         $bank = $request->input('bank', 'bca');
+
+        // Server-side price validation: recompute expected total from room price and nights
+        try {
+            $nights = (int) ($reservation->nights ?? 1);
+            $roomPrice = (int) ($reservation->kamar->price ?? 0);
+            $expectedTotal = $roomPrice * max(1, $nights);
+            if ((int) $reservation->total_price !== $expectedTotal) {
+                Log::warning("Price mismatch for reservation {$reservation->id}: expected {$expectedTotal}, got {$reservation->total_price}");
+                if ($request->ajax() || $request->wantsJson()) {
+                    return response()->json([
+                        'error' => 'Price mismatch',
+                        'expected' => $expectedTotal,
+                        'provided' => $reservation->total_price,
+                    ], 400);
+                }
+                return redirect()->route('payment.checkout', ['id' => $reservation->id])
+                    ->withErrors(['price' => 'Harga tidak sesuai. Silakan muat ulang halaman dan coba lagi.']);
+            }
+        } catch (\Throwable $e) {
+            Log::error('Price validation error: ' . $e->getMessage());
+            // proceed; will likely fail later but avoid blocking user with internal error
+        }
 
         // Basic Midtrans keys sanity check to avoid calling SDK with placeholder values
         $serverKey = env('MIDTRANS_SERVER_KEY');
