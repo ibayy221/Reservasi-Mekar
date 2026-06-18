@@ -78,87 +78,25 @@
             <!-- Swiper Carousel -->
             <div class="swiper kamar-carousel relative px-2 md:px-12">
                 <div class="swiper-wrapper py-4">
-                    
-                    <!-- Kamar 1 -->
+                    @foreach(($kamars ?? collect())->take(6) as $kamar)
                     <div class="swiper-slide">
-                        <div class="group relative overflow-hidden rounded-2xl shadow-md hover:shadow-2xl transition-all duration-500 h-[320px] md:h-[420px] cursor-pointer">
-                            <!-- Image -->
-                            <img src="{{ asset('Asset/Room images/Deluxe 1 king bed/Deluxe 1 king bed.jpg') }}" alt="Deluxe Room" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                            <!-- Gradient Overlay Ungu Mercure dari Bawah ke Atas -->
-                            <div class="absolute inset-0 bg-linear-to-t from-purple-800 via-purple-600/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                            <!-- Elegant Text Content -->
-                            <div class="absolute bottom-0 left-0 right-0 p-6 md:p-8 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                                <span class="text-[10px] text-purple-400 font-semibold uppercase tracking-widest mb-2 block opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">Best Seller</span>
-                                <h3 class="font-bold text-xl md:text-2xl text-white tracking-wide mb-1">Deluxe Room</h3>
-                                <p class="text-xs md:text-sm text-gray-300 font-light">Kamar yang nyaman dan elegan</p>
+                        <a href="{{ route('kamar.show', $kamar->id) }}" class="block">
+                            <div class="group relative overflow-hidden rounded-2xl shadow-md hover:shadow-2xl transition-all duration-500 h-[320px] md:h-[420px]">
+                                @if(!empty($kamar->image))
+                                    <img src="{{ asset($kamar->image) }}" alt="{{ $kamar->name }}" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                                @else
+                                    <div class="absolute inset-0 w-full h-full bg-gray-200"></div>
+                                @endif
+                                <div class="absolute inset-0 bg-linear-to-t from-purple-800 via-purple-600/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                                <div class="absolute bottom-0 left-0 right-0 p-6 md:p-8 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                                    <span class="text-[10px] text-purple-400 font-semibold uppercase tracking-widest mb-2 block opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">{{ $kamar->tag ?? 'Feature' }}</span>
+                                    <h3 class="font-bold text-xl md:text-2xl text-white tracking-wide mb-1">{{ $kamar->name }}</h3>
+                                    <p class="text-xs md:text-sm text-gray-300 font-light">{{ \Illuminate\Support\Str::limit($kamar->description ?? 'Deskripsi tidak tersedia.', 80) }}</p>
+                                </div>
                             </div>
-                        </div>
+                        </a>
                     </div>
-
-                    <!-- Kamar 2 -->
-                    <div class="swiper-slide">
-                        <div class="group relative overflow-hidden rounded-2xl shadow-md hover:shadow-2xl transition-all duration-500 h-[320px] md:h-[420px] cursor-pointer">
-                            <img src="{{ asset('Asset/Room images/Suite business 1 king bed and sofa/Suite business 1 king bed and sofa.jpg') }}" alt="Executive Suite" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                            <div class="absolute inset-0 bg-linear-to-t from-purple-800 via-purple-600/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                            <div class="absolute bottom-0 left-0 right-0 p-6 md:p-8 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                                <span class="text-[10px] text-purple-400 font-semibold uppercase tracking-widest mb-2 block opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">Premium</span>
-                                <h3 class="font-bold text-xl md:text-2xl text-white tracking-wide mb-1">Executive Suite</h3>
-                                <p class="text-xs md:text-sm text-gray-300 font-light">Suite eksklusif dengan pemandangan</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Kamar 3 -->
-                    <div class="swiper-slide">
-                        <div class="group relative overflow-hidden rounded-2xl shadow-md hover:shadow-2xl transition-all duration-500 h-[320px] md:h-[420px] cursor-pointer">
-                            <img src="{{ asset('Asset/Room images/Superior 1 king bed/Kamar-supperior 1 king bed.jpg') }}" alt="Superior Room" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                            <div class="absolute inset-0 bg-linear-to-t from-purple-800 via-purple-600/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                            <div class="absolute bottom-0 left-0 right-0 p-6 md:p-8 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                                <span class="text-[10px] text-purple-400 font-semibold uppercase tracking-widest mb-2 block opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">Modern</span>
-                                <h3 class="font-bold text-xl md:text-2xl text-white tracking-wide mb-1">Superior Room</h3>
-                                <p class="text-xs md:text-sm text-gray-300 font-light">Kamar premium dengan fasilitas lengkap</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Kamar 4 -->
-                    <div class="swiper-slide">
-                        <div class="group relative overflow-hidden rounded-2xl shadow-md hover:shadow-2xl transition-all duration-500 h-[320px] md:h-[420px] cursor-pointer">
-                            <img src="{{ asset('Asset/Room images/Suite business 1 king bed and sofa/Suite business 1 king bed and sofa(family place).jpg') }}" alt="Family Room" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                            <div class="absolute inset-0 bg-linear-to-t from-purple-800 via-purple-600/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                            <div class="absolute bottom-0 left-0 right-0 p-6 md:p-8 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                                <span class="text-[10px] text-purple-400 font-semibold uppercase tracking-widest mb-2 block opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">Spacious</span>
-                                <h3 class="font-bold text-xl md:text-2xl text-white tracking-wide mb-1">Family Room</h3>
-                                <p class="text-xs md:text-sm text-gray-300 font-light">Ruangan luas untuk keluarga</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Kamar 5 -->
-                    <div class="swiper-slide">
-                        <div class="group relative overflow-hidden rounded-2xl shadow-md hover:shadow-2xl transition-all duration-500 h-[320px] md:h-[420px] cursor-pointer">
-                            <img src="{{ asset('Asset/Room images/Suite 1 king bed/suite 1 king bed.jpg') }}" alt="Studio Room" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                            <div class="absolute inset-0 bg-linear-to-t from-purple-800 via-purple-600/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                            <div class="absolute bottom-0 left-0 right-0 p-6 md:p-8 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                                <span class="text-[10px] text-purple-400 font-semibold uppercase tracking-widest mb-2 block opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">Cozy</span>
-                                <h3 class="font-bold text-xl md:text-2xl text-white tracking-wide mb-1">Studio Room</h3>
-                                <p class="text-xs md:text-sm text-gray-300 font-light">Kamar kompak yang efisien</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Kamar 6 -->
-                    <div class="swiper-slide">
-                        <div class="group relative overflow-hidden rounded-2xl shadow-md hover:shadow-2xl transition-all duration-500 h-[320px] md:h-[420px] cursor-pointer">
-                            <img src="{{ asset('Asset/Room images/Superior 1 king bed/Wastafel superior 1 kingbed.jpg') }}" alt="Luxury Room" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                            <div class="absolute inset-0 bg-linear-to-t from-purple-800 via-purple-600/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                            <div class="absolute bottom-0 left-0 right-0 p-6 md:p-8 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                                <span class="text-[10px] text-purple-400 font-semibold uppercase tracking-widest mb-2 block opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">Exclusive</span>
-                                <h3 class="font-bold text-xl md:text-2xl text-white tracking-wide mb-1">Luxury Room</h3>
-                                <p class="text-xs md:text-sm text-gray-300 font-light">Kamar paling mewah kami</p>
-                            </div>
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
 
                 <!-- Navigation Buttons (Premium Glass/Minimalist Style) -->

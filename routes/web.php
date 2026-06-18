@@ -99,6 +99,12 @@ Route::get('/kamar', function (AccorPriceService $accor) {
     return view('kamar', compact('kamars', 'priceMap', 'prices'));
 })->name('kamar');
 
+// Public kamar detail page
+Route::get('/kamar/{id}', function ($id) {
+    $kamar = \App\Models\Kamar::findOrFail($id);
+    return view('kamar.show', compact('kamar'));
+})->name('kamar.show');
+
 // Availability API (used by frontend search)
 Route::get('/api/availability', [AvailabilityController::class, 'index']);
 
@@ -162,6 +168,7 @@ use App\Http\Middleware\EnsureAdminOrReceptionist;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ReservationController as AdminReservationController;
 use App\Http\Controllers\Admin\EventController as AdminEventController;
+use App\Http\Controllers\Admin\ReportController;
 
 Route::prefix('admin')->name('admin.')->middleware(['auth', EnsureAdminOrReceptionist::class])->group(function(){
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
@@ -174,6 +181,19 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', EnsureAdminOrRecepti
     Route::post('/reservations/{id}/status', [AdminReservationController::class, 'updateStatus'])->name('reservations.updateStatus');
 
     Route::resource('events', AdminEventController::class);
+    
+    // Report routes (dashboard shortcuts)
+    Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
+    Route::get('/reports/reservations', [ReportController::class, 'reservations'])->name('reports.reservations');
+    Route::get('/reports/reservations/print', [ReportController::class, 'reservationsPrint'])->name('reports.reservations.print');
+    Route::get('/reports/revenue', [ReportController::class, 'revenue'])->name('reports.revenue');
+    Route::get('/reports/occupancy', [ReportController::class, 'occupancy'])->name('reports.occupancy');
+    Route::get('/reports/availability', [ReportController::class, 'availability'])->name('reports.availability');
+    Route::get('/reports/guests', [ReportController::class, 'guests'])->name('reports.guests');
+    Route::get('/reports/cancellations', [ReportController::class, 'cancellations'])->name('reports.cancellations');
+    Route::get('/reports/payments', [ReportController::class, 'payments'])->name('reports.payments');
+    Route::get('/reports/events', [ReportController::class, 'events'])->name('reports.events');
+    Route::get('/reports/export', [ReportController::class, 'export'])->name('reports.export');
 });
 
 // DEV: temporary helper to update current user's KTP / phone via query string

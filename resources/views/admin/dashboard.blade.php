@@ -4,6 +4,7 @@
 <!-- Wrapper utama: Tinggi diatur agar muat 1 layar di desktop (asumsi ada navbar ~80px) -->
 <div class="max-w-7xl mx-auto p-4 lg:p-6 lg:h-[calc(100vh-80px)] flex flex-col">
     
+    
     <!-- Header Dashboard -->
     <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
         <div>
@@ -50,7 +51,16 @@
                     <svg class="w-4 h-4 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
                     Jalan Pintas
                 </h3>
-                <div class="flex flex-col gap-3">
+                <div class="flex flex-col gap-3 max-h-56 overflow-y-auto pr-1">
+                    <a href="{{ route('admin.reports.reservations') }}" class="group flex items-center justify-between p-4 rounded-xl border border-gray-100 hover:border-purple-500 hover:bg-purple-50 transition-all bg-gray-50">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-purple-600 shadow-sm group-hover:bg-purple-500 group-hover:text-white transition-colors">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-6a2 2 0 012-2h2a2 2 0 012 2v6M7 21h10"></path></svg>
+                            </div>
+                            <span class="font-bold text-gray-700 group-hover:text-purple-700">Kelola Laporan</span>
+                        </div>
+                        <svg class="w-5 h-5 text-gray-400 group-hover:text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                    </a>
                     <a href="{{ route('admin.reservations.index') }}" class="group flex items-center justify-between p-4 rounded-xl border border-gray-100 hover:border-purple-500 hover:bg-purple-50 transition-all bg-gray-50">
                         <div class="flex items-center gap-3">
                             <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-purple-600 shadow-sm group-hover:bg-purple-500 group-hover:text-white transition-colors">
@@ -79,6 +89,105 @@
                             <span class="font-bold text-gray-700 group-hover:text-purple-700">Kelola Event</span>
                         </div>
                         <svg class="w-5 h-5 text-gray-400 group-hover:text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Menu Laporan (Baru) -->
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-5 mt-4">
+                <h3 class="text-sm font-bold text-gray-800 mb-3 uppercase tracking-wide flex items-center gap-2">
+                    <svg class="w-4 h-4 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-6a2 2 0 012-2h2a2 2 0 012 2v6M7 21h10"></path></svg>
+                    Laporan
+                </h3>
+                <div class="flex flex-col gap-2 text-sm">
+                    <a href="{{ route('admin.reports.reservations') }}" class="flex items-center justify-between p-3 rounded-lg border border-gray-100 hover:bg-purple-50 transition">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center text-purple-600">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3M3 21h18"></path></svg>
+                            </div>
+                            <span class="font-semibold text-gray-700">Laporan Reservasi</span>
+                        </div>
+                        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                    </a>
+
+                    <a href="{{ route('admin.reports.revenue') }}" class="flex items-center justify-between p-3 rounded-lg border border-gray-100 hover:bg-purple-50 transition">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center text-purple-600">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-3.866 0-7 3.134-7 7h14c0-3.866-3.134-7-7-7zM12 2v4"></path></svg>
+                            </div>
+                            <span class="font-semibold text-gray-700">Pendapatan</span>
+                        </div>
+                        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                    </a>
+
+                    <a href="{{ route('admin.reports.occupancy') }}" class="flex items-center justify-between p-3 rounded-lg border border-gray-100 hover:bg-purple-50 transition">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center text-purple-600">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7h18M3 12h18M3 17h18"></path></svg>
+                            </div>
+                            <span class="font-semibold text-gray-700">Occupancy Rate</span>
+                        </div>
+                        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                    </a>
+
+                    <a href="{{ route('admin.reports.availability') }}" class="flex items-center justify-between p-3 rounded-lg border border-gray-100 hover:bg-purple-50 transition">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center text-purple-600">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3M3 21h18"></path></svg>
+                            </div>
+                            <span class="font-semibold text-gray-700">Ketersediaan Kamar</span>
+                        </div>
+                        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                    </a>
+
+                    <a href="{{ route('admin.reports.guests') }}" class="flex items-center justify-between p-3 rounded-lg border border-gray-100 hover:bg-purple-50 transition">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center text-purple-600">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A9 9 0 1118.879 6.196 9 9 0 015.12 17.804z"></path></svg>
+                            </div>
+                            <span class="font-semibold text-gray-700">Laporan Tamu</span>
+                        </div>
+                        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                    </a>
+
+                    <a href="{{ route('admin.reports.cancellations') }}" class="flex items-center justify-between p-3 rounded-lg border border-gray-100 hover:bg-purple-50 transition">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center text-purple-600">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 6L6 18M6 6l12 12"></path></svg>
+                            </div>
+                            <span class="font-semibold text-gray-700">Pembatalan & No-show</span>
+                        </div>
+                        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                    </a>
+
+                    <a href="{{ route('admin.reports.payments') }}" class="flex items-center justify-between p-3 rounded-lg border border-gray-100 hover:bg-purple-50 transition">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center text-purple-600">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3-1.343-3-3S10.343 2 12 2s3 1.343 3 3-1.343 3-3 3zM6 20a6 6 0 0112 0"></path></svg>
+                            </div>
+                            <span class="font-semibold text-gray-700">Pembayaran & Rekonsiliasi</span>
+                        </div>
+                        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                    </a>
+
+                    <a href="{{ route('admin.reports.events') }}" class="flex items-center justify-between p-3 rounded-lg border border-gray-100 hover:bg-purple-50 transition">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center text-purple-600">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A2 2 0 013 15.382V6.618a2 2 0 011.553-1.894L9 2"></path></svg>
+                            </div>
+                            <span class="font-semibold text-gray-700">Laporan Event</span>
+                        </div>
+                        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                    </a>
+
+                    <a href="{{ route('admin.reports.export') }}" class="flex items-center justify-between p-3 rounded-lg border border-gray-100 hover:bg-purple-50 transition">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center text-purple-600">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v12m0 0l-3-3m3 3l3-3M21 21H3"></path></svg>
+                            </div>
+                            <span class="font-semibold text-gray-700">Export / Cetak</span>
+                        </div>
+                        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                     </a>
                 </div>
             </div>

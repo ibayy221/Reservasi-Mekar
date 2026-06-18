@@ -12,15 +12,20 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $totalReservations = Reservasi::count();
+        // total reservasi (semua, kecuali yang dibatalkan)
+        $totalReservations = Reservasi::where('status', '!=', 'cancelled')->count();
         $recentReservations = Reservasi::with('kamar')->latest()->limit(10)->get();
         $roomsCount = Kamar::count();
         $roomsUnits = Kamar::sum('stock');
-        // jumlah tersedia hari ini (fallback ke total units jika tidak ada data availability)
-        $availableUnits = KamarAvailability::whereDate('date', now())->sum('available');
-        if ($availableUnits <= 0) {
-            $availableUnits = $roomsUnits;
-        }
+        // jumlah tersedia hari ini: hitung dari total unit dikurangi reservasi aktif hari ini
+        // Hitung jumlah reservasi yang sebenarnya menginap/overlap hari ini
+        $today = now();
+        $reservedToday = Reservasi::where('status', '!=', 'cancelled')
+            ->whereDate('check_in', '<=', $today)
+            ->whereDate('check_out', '>', $today)
+            ->count();
+
+        $availableUnits = max(0, $roomsUnits - $reservedToday);
         return view('admin.dashboard', compact('totalReservations','recentReservations','roomsCount','roomsUnits','availableUnits'));
     }
 }

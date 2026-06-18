@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Kamar;
 use App\Models\Reservasi;
+use App\Models\KamarAvailability;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -30,18 +31,28 @@ class ReservationController extends Controller
 
         $nights = (new \DateTime($data['checkin']))->diff(new \DateTime($data['checkout']))->days;
 
-        // wrap in transaction and re-check availability
+        // wrap in transaction and re-check per-date availability
         try {
             $reservation = DB::transaction(function () use ($data, $kamar, $nights) {
-                $reservedCount = Reservasi::where('kamar_id', $kamar->id)
-                    ->where(function ($q) use ($data) {
-                        $q->where('check_in', '<', $data['checkout'])
-                          ->where('check_out', '>', $data['checkin']);
-                    })->count();
+                $checkin = \Carbon\Carbon::parse($data['checkin']);
+                $checkout = \Carbon\Carbon::parse($data['checkout']);
 
-                $available = max(0, $kamar->stock - $reservedCount);
-                if ($available <= 0) {
-                    return null; // indicate not available
+                // Build date range (each night booked)
+                $dates = [];
+                for ($dt = $checkin->copy(); $dt->lt($checkout); $dt->addDay()) {
+                    $dates[] = $dt->toDateString();
+                }
+
+                // Verify availability for each date
+                foreach ($dates as $date) {
+                    $avail = KamarAvailability::firstOrCreate(
+                        ['kamar_id' => $kamar->id, 'date' => $date],
+                        ['available' => $kamar->stock]
+                    );
+
+                    if ($avail->available <= 0) {
+                        return null; // not available on at least one date
+                    }
                 }
 
                 $total = $kamar->price * $nights;
@@ -70,6 +81,15 @@ class ReservationController extends Controller
                     'bed_setup' => $data['bed_setup'] ?? null,
                     'special_requests' => $data['special_requests'] ?? null,
                 ]);
+
+                // decrement availability for each booked date
+                foreach ($dates as $date) {
+                    $avail = KamarAvailability::where('kamar_id', $kamar->id)->where('date', $date)->lockForUpdate()->first();
+                    if ($avail) {
+                        $avail->available = max(0, $avail->available - 1);
+                        $avail->save();
+                    }
+                }
 
                 return $res;
             });
