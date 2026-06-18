@@ -66,6 +66,27 @@
                 </div>
             </div>
         </div>
+        
+        <!-- Modal: Notifikasi Pemberitahuan -->
+        <div id="notificationModal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
+            <div class="bg-white rounded-xl p-6 w-full max-w-sm mx-4 shadow-xl">
+                <div class="flex items-start gap-4">
+                    <div class="flex-shrink-0">
+                        <svg id="notif-icon" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                    <div class="flex-1">
+                        <h3 id="notif-title" class="text-base font-semibold text-gray-800"></h3>
+                        <p id="notif-message" class="text-sm text-gray-600 mt-1"></p>
+                    </div>
+                </div>
+                <div class="mt-6 flex items-center justify-end">
+                    <button id="notif_ok" class="px-4 py-2 rounded-lg bg-purple-600 hover:bg-purple-700 text-white font-medium transition">Mengerti</button>
+                </div>
+            </div>
+        </div>
+
 @endsection
 
 @push('scripts')
@@ -73,13 +94,45 @@
 <script>
 document.addEventListener('DOMContentLoaded', function(){
     const modal = document.getElementById('dateModal');
+    const notifModal = document.getElementById('notificationModal');
     const modalCheckin = document.getElementById('modal_checkin');
     const modalCheckout = document.getElementById('modal_checkout');
     const btnCancel = document.getElementById('modal_cancel');
     const btnContinue = document.getElementById('modal_continue');
     const modalAdults = document.getElementById('modal_adults');
     const modalChildren = document.getElementById('modal_children');
+    const notifOk = document.getElementById('notif_ok');
     let pendingHref = null;
+
+    // Notification function
+    function showNotification(title, message, icon = 'warning'){
+        const notifIcon = document.getElementById('notif-icon');
+        const notifTitle = document.getElementById('notif-title');
+        const notifMessage = document.getElementById('notif-message');
+        
+        notifTitle.textContent = title;
+        notifMessage.textContent = message;
+        
+        // Update icon based on type
+        if(icon === 'warning'){
+            notifIcon.parentElement.className = 'flex-shrink-0 text-yellow-600';
+            notifIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />';
+        } else if(icon === 'error'){
+            notifIcon.parentElement.className = 'flex-shrink-0 text-red-600';
+            notifIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l-2-2m0 0l-2-2m2 2l2-2m-2 2l-2 2m8-8a9 9 0 11-18 0 9 9 0 0118 0z" />';
+        } else if(icon === 'info'){
+            notifIcon.parentElement.className = 'flex-shrink-0 text-blue-600';
+            notifIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />';
+        }
+        
+        notifModal.classList.remove('hidden');
+        notifModal.classList.add('flex');
+    }
+
+    function hideNotification(){
+        notifModal.classList.add('hidden');
+        notifModal.classList.remove('flex');
+    }
 
     function showModal(){
         modal.classList.remove('hidden');
@@ -113,6 +166,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
     btnCancel.addEventListener('click', function(){ hideModal(); });
     modal.addEventListener('click', function(e){ if(e.target === modal) hideModal(); });
+    notifOk.addEventListener('click', function(){ hideNotification(); });
 
     // Initialize Flatpickr on modal inputs for better UX
     let fpCheckout = null;
@@ -135,8 +189,25 @@ document.addEventListener('DOMContentLoaded', function(){
         const cOut = modalCheckout.value;
         const adults = parseInt(modalAdults.value) || 1;
         const children = parseInt(modalChildren.value) || 0;
-        if(!cIn || !cOut){ alert('Pilih tanggal check-in dan check-out.'); return; }
-        if(new Date(cIn) > new Date(cOut)){ alert('Tanggal check-out harus setelah check-in.'); return; }
+        
+        if(!cIn || !cOut){ 
+            showNotification(
+                'Tanggal Belum Dipilih',
+                'Mohon pilih tanggal check-in dan check-out untuk melanjutkan pemesanan kamar.',
+                'warning'
+            );
+            return; 
+        }
+        
+        if(new Date(cIn) > new Date(cOut)){ 
+            showNotification(
+                'Tanggal Tidak Valid',
+                'Tanggal check-out harus lebih besar dari tanggal check-in. Silahkan periksa kembali tanggal Anda.',
+                'error'
+            );
+            return; 
+        }
+        
         if(!pendingHref){ hideModal(); return; }
         const url = new URL(pendingHref, window.location.origin);
         url.searchParams.set('checkin', cIn);

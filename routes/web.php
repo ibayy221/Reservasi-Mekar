@@ -6,10 +6,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Http\Controllers\AvailabilityController;
+use App\Http\Controllers\LandingController;
 
-Route::get('/', function () {
-    return view('landing');
-});
+Route::get('/', [LandingController::class, 'index']);
 Route::get('/login', function () {
     return view('auth.login');
 })->name('login');
@@ -162,6 +161,7 @@ Route::post('/midtrans/notification', [PaymentController::class, 'notification']
 use App\Http\Middleware\EnsureAdminOrReceptionist;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ReservationController as AdminReservationController;
+use App\Http\Controllers\Admin\EventController as AdminEventController;
 
 Route::prefix('admin')->name('admin.')->middleware(['auth', EnsureAdminOrReceptionist::class])->group(function(){
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
@@ -172,6 +172,8 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', EnsureAdminOrRecepti
     Route::get('/reservations', [AdminReservationController::class, 'index'])->name('reservations.index');
     Route::get('/reservations/{id}', [AdminReservationController::class, 'show'])->name('reservations.show');
     Route::post('/reservations/{id}/status', [AdminReservationController::class, 'updateStatus'])->name('reservations.updateStatus');
+
+    Route::resource('events', AdminEventController::class);
 });
 
 // DEV: temporary helper to update current user's KTP / phone via query string

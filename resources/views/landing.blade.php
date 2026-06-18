@@ -50,7 +50,7 @@
                 </div>
             </div>
             <!-- Availability Modal -->
-            <div id="availability_modal" class="fixed inset-0 hidden z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm px-4 md:px-6">
+            <div id="availability_modal" class="fixed inset-0 hidden z-50 items-center justify-center bg-black/60 backdrop-blur-sm px-4 md:px-6">
                 <div class="modal-dialog bg-white w-full max-w-4xl md:max-w-5xl mx-4 md:mx-0 rounded-2xl shadow-2xl overflow-hidden transform transition-all duration-300 scale-95 opacity-0">
                     <div class="flex items-center justify-between p-5 border-b bg-white">
                         <h3 class="font-bold text-lg">Hasil Pencarian Kamar</h3>
@@ -84,8 +84,8 @@
                         <div class="group relative overflow-hidden rounded-2xl shadow-md hover:shadow-2xl transition-all duration-500 h-[320px] md:h-[420px] cursor-pointer">
                             <!-- Image -->
                             <img src="{{ asset('Asset/Room images/Deluxe 1 king bed/Deluxe 1 king bed.jpg') }}" alt="Deluxe Room" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                            <!-- Gradient Overlay Ekstra Lembut -->
-                            <div class="absolute inset-0 bg-gradient-to-t from-purple-700/95 via-purple-700/20 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-500"></div>
+                            <!-- Gradient Overlay Ungu Mercure dari Bawah ke Atas -->
+                            <div class="absolute inset-0 bg-linear-to-t from-purple-800 via-purple-600/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                             <!-- Elegant Text Content -->
                             <div class="absolute bottom-0 left-0 right-0 p-6 md:p-8 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
                                 <span class="text-[10px] text-purple-400 font-semibold uppercase tracking-widest mb-2 block opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">Best Seller</span>
@@ -99,7 +99,7 @@
                     <div class="swiper-slide">
                         <div class="group relative overflow-hidden rounded-2xl shadow-md hover:shadow-2xl transition-all duration-500 h-[320px] md:h-[420px] cursor-pointer">
                             <img src="{{ asset('Asset/Room images/Suite business 1 king bed and sofa/Suite business 1 king bed and sofa.jpg') }}" alt="Executive Suite" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                            <div class="absolute inset-0 bg-gradient-to-t from-purple-700/95 via-purple-700/20 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-500"></div>
+                            <div class="absolute inset-0 bg-linear-to-t from-purple-800 via-purple-600/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                             <div class="absolute bottom-0 left-0 right-0 p-6 md:p-8 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
                                 <span class="text-[10px] text-purple-400 font-semibold uppercase tracking-widest mb-2 block opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">Premium</span>
                                 <h3 class="font-bold text-xl md:text-2xl text-white tracking-wide mb-1">Executive Suite</h3>
@@ -112,7 +112,7 @@
                     <div class="swiper-slide">
                         <div class="group relative overflow-hidden rounded-2xl shadow-md hover:shadow-2xl transition-all duration-500 h-[320px] md:h-[420px] cursor-pointer">
                             <img src="{{ asset('Asset/Room images/Superior 1 king bed/Kamar-supperior 1 king bed.jpg') }}" alt="Superior Room" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                            <div class="absolute inset-0 bg-gradient-to-t from-purple-700/95 via-purple-700/20 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-500"></div>
+                            <div class="absolute inset-0 bg-linear-to-t from-purple-800 via-purple-600/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                             <div class="absolute bottom-0 left-0 right-0 p-6 md:p-8 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
                                 <span class="text-[10px] text-purple-400 font-semibold uppercase tracking-widest mb-2 block opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">Modern</span>
                                 <h3 class="font-bold text-xl md:text-2xl text-white tracking-wide mb-1">Superior Room</h3>
@@ -125,7 +125,7 @@
                     <div class="swiper-slide">
                         <div class="group relative overflow-hidden rounded-2xl shadow-md hover:shadow-2xl transition-all duration-500 h-[320px] md:h-[420px] cursor-pointer">
                             <img src="{{ asset('Asset/Room images/Suite business 1 king bed and sofa/Suite business 1 king bed and sofa(family place).jpg') }}" alt="Family Room" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                            <div class="absolute inset-0 bg-gradient-to-t from-purple-700/95 via-purple-700/20 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-500"></div>
+                            <div class="absolute inset-0 bg-linear-to-t from-purple-800 via-purple-600/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                             <div class="absolute bottom-0 left-0 right-0 p-6 md:p-8 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
                                 <span class="text-[10px] text-purple-400 font-semibold uppercase tracking-widest mb-2 block opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">Spacious</span>
                                 <h3 class="font-bold text-xl md:text-2xl text-white tracking-wide mb-1">Family Room</h3>
@@ -138,7 +138,7 @@
                     <div class="swiper-slide">
                         <div class="group relative overflow-hidden rounded-2xl shadow-md hover:shadow-2xl transition-all duration-500 h-[320px] md:h-[420px] cursor-pointer">
                             <img src="{{ asset('Asset/Room images/Suite 1 king bed/suite 1 king bed.jpg') }}" alt="Studio Room" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                            <div class="absolute inset-0 bg-gradient-to-t from-purple-700/95 via-purple-700/20 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-500"></div>
+                            <div class="absolute inset-0 bg-linear-to-t from-purple-800 via-purple-600/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                             <div class="absolute bottom-0 left-0 right-0 p-6 md:p-8 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
                                 <span class="text-[10px] text-purple-400 font-semibold uppercase tracking-widest mb-2 block opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">Cozy</span>
                                 <h3 class="font-bold text-xl md:text-2xl text-white tracking-wide mb-1">Studio Room</h3>
@@ -151,7 +151,7 @@
                     <div class="swiper-slide">
                         <div class="group relative overflow-hidden rounded-2xl shadow-md hover:shadow-2xl transition-all duration-500 h-[320px] md:h-[420px] cursor-pointer">
                             <img src="{{ asset('Asset/Room images/Superior 1 king bed/Wastafel superior 1 kingbed.jpg') }}" alt="Luxury Room" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                            <div class="absolute inset-0 bg-gradient-to-t from-purple-700/95 via-purple-700/20 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-500"></div>
+                            <div class="absolute inset-0 bg-linear-to-t from-purple-800 via-purple-600/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                             <div class="absolute bottom-0 left-0 right-0 p-6 md:p-8 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
                                 <span class="text-[10px] text-purple-400 font-semibold uppercase tracking-widest mb-2 block opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">Exclusive</span>
                                 <h3 class="font-bold text-xl md:text-2xl text-white tracking-wide mb-1">Luxury Room</h3>
@@ -189,6 +189,58 @@
             
         </div>
     </div>
+
+    <!-- Section Events - Modern Card Design -->
+    <div class="bg-white py-12 md:py-20 border-t border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 md:px-6">
+            <!-- Header -->
+            <div class="text-center mb-12 md:mb-16">
+                <span class="text-[10px] md:text-xs font-bold tracking-widest text-purple-600 uppercase block mb-2">Acara & Event</span>
+                <h2 class="text-2xl md:text-4xl font-bold text-gray-900 mb-3">Venue Sempurna untuk Setiap Momen</h2>
+                <p class="text-sm md:text-base text-gray-600 max-w-2xl mx-auto">Mercure Karawang menawarkan fasilitas terlengkap untuk mewujudkan acara impian Anda.</p>
+                <div class="w-16 h-1 bg-purple-600 mx-auto rounded-full mt-4"></div>
+            </div>
+
+            <!-- Events Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+                @forelse ($events as $event)
+                <!-- Event Card -->
+                <div class="group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500">
+                    <div class="relative h-80 overflow-hidden bg-gray-200">
+                        @if(!empty($event->image_path) && file_exists(public_path('storage/' . $event->image_path)))
+                            <img src="{{ asset('storage/' . $event->image_path) }}" alt="{{ $event->title }}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                        @else
+                            <div class="w-full h-full bg-gray-100 flex items-center justify-center text-gray-400">No image</div>
+                        @endif
+                        <div class="absolute inset-0 bg-linear-to-t from-purple-900/80 via-purple-900/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    </div>
+                    <div class="p-6 md:p-7 bg-white relative">
+                        @if(!empty($event->badge))
+                        <div class="absolute -top-3 left-6 text-white text-xs md:text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider min-w-[44px] flex items-center justify-center whitespace-nowrap" style="background-color: #6d36a1;">{{ $event->badge }}</div>
+                        @endif
+                        <h3 class="text-xl md:text-2xl font-bold text-gray-900 mb-2 group-hover:text-purple-600 transition duration-300">{{ $event->title }}</h3>
+                        <p class="text-sm text-gray-600 mb-4 leading-relaxed">{{ $event->description }}</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            @if ($event->features && is_array($event->features))
+                                @foreach ($event->features as $feature)
+                                <span class="text-[11px] bg-purple-50 text-purple-700 px-3 py-1 rounded-full font-medium">{{ $feature }}</span>
+                                @endforeach
+                            @endif
+                        </div>
+                        @if ($event->link)
+                        <a href="{{ $event->link }}" target="_blank" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2.5 rounded-lg transition duration-300 text-sm block text-center">Pelajari Lebih</a>
+                        @else
+                        <button class="w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2.5 rounded-lg transition duration-300 text-sm">Pelajari Lebih</button>
+                        @endif
+                    </div>
+                </div>
+                @empty
+                <div class="text-center col-span-3 py-8 text-gray-500">Belum ada event yang tersedia.</div>
+                @endforelse
+            </div>
+        </div>
+    </div>
+
     <!-- Swiper JS -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <!-- Flatpickr JS + range plugin -->
@@ -304,10 +356,44 @@
         const content = document.getElementById('availability_content');
         const loading = document.getElementById('availability_loading');
         const dialog = document.querySelector('#availability_modal .modal-dialog');
+        const notifModal = document.getElementById('notification_modal');
+        const notifOk = document.getElementById('notif_ok');
 
         function formatCurrency(num){
             return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(num);
         }
+
+        // Notification function
+        function showNotification(title, message, icon = 'warning'){
+            const notifIcon = document.getElementById('notif-icon');
+            const notifTitle = document.getElementById('notif-title');
+            const notifMessage = document.getElementById('notif-message');
+            
+            notifTitle.textContent = title;
+            notifMessage.textContent = message;
+            
+            // Update icon based on type
+            if(icon === 'warning'){
+                notifIcon.parentElement.className = 'flex-shrink-0 text-yellow-600';
+                notifIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />';
+            } else if(icon === 'error'){
+                notifIcon.parentElement.className = 'flex-shrink-0 text-red-600';
+                notifIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l-2-2m0 0l-2-2m2 2l2-2m-2 2l-2 2m8-8a9 9 0 11-18 0 9 9 0 0118 0z" />';
+            } else if(icon === 'info'){
+                notifIcon.parentElement.className = 'flex-shrink-0 text-blue-600';
+                notifIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />';
+            }
+            
+            notifModal.classList.remove('hidden');
+            notifModal.classList.add('flex');
+        }
+
+        function hideNotification(){
+            notifModal.classList.add('hidden');
+            notifModal.classList.remove('flex');
+        }
+
+        notifOk.addEventListener('click', hideNotification);
 
         btn.addEventListener('click', function(e){
             e.preventDefault();
@@ -317,7 +403,11 @@
             const children = document.getElementById('children_input').value || 0;
 
             if(!checkin || !checkout){
-                alert('Silakan pilih tanggal check-in dan check-out.');
+                showNotification(
+                    'Tanggal Belum Dipilih',
+                    'Mohon pilih tanggal check-in dan check-out untuk mencari ketersediaan kamar.',
+                    'warning'
+                );
                 return;
             }
 
@@ -578,7 +668,7 @@
             </div>
 
             <!-- Room Detail Modal (opened when user clicks 'Pilih Kamar') -->
-            <div id="room_detail_modal" class="fixed inset-0 hidden z-60 flex items-center justify-center bg-black/60 backdrop-blur-sm px-4 md:px-6">
+            <div id="room_detail_modal" class="fixed inset-0 hidden z-60 items-center justify-center bg-black/60 backdrop-blur-sm px-4 md:px-6">
                 <div class="room-modal-dialog bg-white w-full max-w-4xl mx-4 md:mx-0 rounded-2xl shadow-2xl overflow-hidden transform transition-all duration-300 scale-95 opacity-0">
                     <div class="flex items-center justify-between p-5 border-b bg-white">
                         <h3 id="room_detail_title" class="font-bold text-lg">Detail Kamar</h3>
@@ -616,4 +706,24 @@
         </div>
     </div>
     
+    <!-- Notification Modal -->
+    <div id="notification_modal" class="hidden fixed inset-0 bg-black/50 z-50 items-center justify-center">
+        <div class="bg-white rounded-xl p-6 w-full max-w-sm mx-4 shadow-xl">
+            <div class="flex items-start gap-4">
+                <div class="shrink-0">
+                    <svg id="notif-icon" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </div>
+                <div class="flex-1">
+                    <h3 id="notif-title" class="text-base font-semibold text-gray-800"></h3>
+                    <p id="notif-message" class="text-sm text-gray-600 mt-1"></p>
+                </div>
+            </div>
+            <div class="mt-6 flex items-center justify-end">
+                <button id="notif_ok" class="px-4 py-2 rounded-lg bg-purple-600 hover:bg-purple-700 text-white font-medium transition">Mengerti</button>
+            </div>
+        </div>
+    </div>
+
 @endsection

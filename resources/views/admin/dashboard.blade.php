@@ -69,6 +69,16 @@
                         </div>
                         <svg class="w-5 h-5 text-gray-400 group-hover:text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                     </a>
+                    
+                    <a href="{{ route('admin.events.index') }}" class="group flex items-center justify-between p-4 rounded-xl border border-gray-100 hover:border-purple-500 hover:bg-purple-50 transition-all bg-gray-50">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-purple-600 shadow-sm group-hover:bg-purple-500 group-hover:text-white transition-colors">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-3.866 0-7 3.134-7 7h14c0-3.866-3.134-7-7-7zM12 2v4M6 6l1.5 1.5M18 6l-1.5 1.5"/></svg>
+                            </div>
+                            <span class="font-bold text-gray-700 group-hover:text-purple-700">Kelola Event</span>
+                        </div>
+                        <svg class="w-5 h-5 text-gray-400 group-hover:text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                    </a>
                 </div>
             </div>
         </div>
