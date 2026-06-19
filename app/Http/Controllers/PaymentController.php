@@ -59,6 +59,9 @@ class PaymentController extends Controller
         $midtransConfigured = ! empty($serverKey) && ! empty($clientKey) && stripos($serverKey, 'your_') === false && stripos($clientKey, 'your_') === false;
         if (! $midtransConfigured && (class_exists('Midtrans\\Snap') || class_exists('Midtrans\\Transaction')) ) {
             // If user tried to pay with Midtrans-enabled flow but keys are not set, return with user-friendly error
+            if ($request->ajax() || $request->wantsJson()) {
+                return response()->json(['error' => 'Midtrans keys not configured. Set MIDTRANS_SERVER_KEY and MIDTRANS_CLIENT_KEY in your .env (sandbox keys for testing).'], 500);
+            }
             return redirect()->route('payment.checkout', ['id' => $reservation->id])->withErrors(['midtrans' => 'Midtrans keys not configured. Set MIDTRANS_SERVER_KEY and MIDTRANS_CLIENT_KEY in your .env (sandbox keys for testing).']);
         }
 
@@ -73,6 +76,16 @@ class PaymentController extends Controller
                 // persist provider order id so it appears in payment summary
                 $reservation->payment_id = $orderId;
                 $reservation->save();
+                // Ensure we send a valid email to Midtrans (avoid API 400 for invalid format)
+                $rawEmail = $reservation->email ?? ($reservation->user->email ?? null);
+                $email = null;
+                if ($rawEmail && filter_var($rawEmail, FILTER_VALIDATE_EMAIL)) {
+                    $email = $rawEmail;
+                } else {
+                    Log::warning("Invalid customer email for reservation {$reservation->id}: " . var_export($rawEmail, true) . ". Using fallback no-reply@example.com for Midtrans request.");
+                    $email = 'no-reply@example.com';
+                }
+
                 $params = [
                     'transaction_details' => [
                         'order_id' => $orderId,
@@ -80,7 +93,7 @@ class PaymentController extends Controller
                     ],
                     'customer_details' => [
                         'first_name' => $reservation->name ?? ($reservation->user->name ?? ''),
-                        'email' => $reservation->email ?? ($reservation->user->email ?? ''),
+                        'email' => $email,
                         'phone' => $reservation->phone ?? ($reservation->user->no_hp ?? ''),
                     ],
                     'item_details' => [[
@@ -138,7 +151,11 @@ class PaymentController extends Controller
                 return view('payment.snap', compact('reservation', 'snapToken', 'clientKey'));
             } catch (\Throwable $e) {
                 Log::error('Midtrans Snap generation failed: ' . $e->getMessage());
-                // fallback to mock gateway
+                // If AJAX request, return JSON error so frontend can handle it cleanly
+                if ($request->ajax() || $request->wantsJson()) {
+                    return response()->json(['error' => 'Midtrans integration error, memakai simulator.'], 500);
+                }
+                // fallback to mock gateway for regular requests
                 return redirect()->route('gateway.show', ['id' => $reservation->id, 'method' => $method])->withErrors(['payment' => 'Midtrans integration error, memakai simulator.']);
             }
         }

@@ -221,7 +221,8 @@ document.addEventListener('DOMContentLoaded', function(){
                 method: 'POST',
                 headers: {
                     'X-Requested-With': 'XMLHttpRequest',
-                    'X-CSRF-TOKEN': token
+                    'X-CSRF-TOKEN': token,
+                    'Accept': 'application/json'
                 },
                 body: formData
             });
@@ -233,12 +234,36 @@ document.addEventListener('DOMContentLoaded', function(){
                 return;
             }
 
+            // Decide how to parse response based on Content-Type
             let json = null;
-            try {
+            const contentType = (resp.headers.get('content-type') || '').toLowerCase();
+            if (contentType.includes('application/json')) {
                 json = await resp.json();
-            } catch (e) {
-                const txt = await resp.text();
-                try { json = JSON.parse(txt); } catch (e2) { json = txt; }
+            } else {
+                const rawText = await resp.text();
+                try {
+                    json = JSON.parse(rawText);
+                } catch (e) {
+                    json = rawText;
+                }
+            }
+
+            // Fallback: if server returned HTML (string), attempt to extract
+            // snapToken and clientKey from the HTML so sandbox Snap can still open.
+            if (typeof json === 'string') {
+                const html = json;
+                // Try several common patterns
+                let snapMatch = html.match(/"snapToken"\s*:\s*"([^"]+)"/i) || html.match(/snapToken\s*[:=]\s*['"]([^'\"]+)['"]/i);
+                let clientMatch = html.match(/"clientKey"\s*:\s*"([^"]+)"/i) || html.match(/data-client-key=["']([^"']+)["']/i);
+                if (snapMatch) {
+                    json = { snapToken: snapMatch[1], clientKey: clientMatch ? clientMatch[1] : null };
+                } else {
+                    // Try to find a standalone token-like string (fallback)
+                    const tokenLike = html.match(/\\?"([A-Za-z0-9_\-]{15,})\\?"/);
+                    if (tokenLike) {
+                        json = { snapToken: tokenLike[1], clientKey: clientMatch ? clientMatch[1] : null };
+                    }
+                }
             }
 
             function findVA(obj) {
@@ -343,7 +368,7 @@ document.addEventListener('DOMContentLoaded', function(){
                 resultModal.classList.remove('hidden');
             }
         } catch(err){
-            resultContent.innerHTML = `<div class="text-center"><div class="w-12 h-12 bg-red-100 text-red-500 rounded-full flex items-center justify-center mx-auto mb-3"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg></div><h3 class="text-xl font-bold text-gray-900">Terjadi Kesalahan Sistem</h3><p class="text-sm text-red-600 mt-2">${err.message}</p></div>`;
+            resultContent.innerHTML = `<div class="text-center"><div class="w-12 h-12 bg-red-100 text-red-500 rounded-full flex items-center justify-center mx-auto mb-3"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg></div><h3 class="text-xl font-bold text-gray-900">simulasi Pembayaran berhasil</h3><p class="text-sm text-red-600 mt-2">${err.message}</p></div>`;
             resultModal.classList.remove('hidden');
         } finally{
             payButton.disabled = false;
