@@ -30,12 +30,25 @@
                             </div>
                         </div>
                     </div>
-                    <div class="p-4 md:p-5 pt-0 border-t border-gray-50 flex items-center justify-between mt-4">
-                        <div>
-                            <span class="text-[10px] text-gray-400 block">Mulai dari</span>
-                            <span class="text-sm md:text-base font-bold text-purple-600">{{ $priceMap[$kamar->id] ?? ('Rp ' . number_format($kamar->price ?? 0,0,',','.')) }}<span class="text-[10px] text-gray-400 font-normal">/malam</span></span>
+                    <div class="p-4 md:p-5 pt-0 border-t border-gray-50 mt-4">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <span class="text-[10px] text-gray-400 block">Mulai dari</span>
+                                <span class="text-sm md:text-base font-bold text-purple-600">{{ $priceMap[$kamar->id] ?? ('Rp ' . number_format($kamar->price ?? 0,0,',','.')) }}<span class="text-[10px] text-gray-400 font-normal">/malam</span></span>
+                            </div>
+                            <a href="{{ route('booking.create') }}?kamar_id={{ $kamar->id }}&checkin={{ request()->query('checkin') }}&checkout={{ request()->query('checkout') }}&adults={{ request()->query('adults',2) }}&children={{ request()->query('children',0) }}" class="btn-pesan bg-purple-600 hover:bg-purple-700 text-white text-xs font-semibold px-4 py-2 rounded-lg shadow-sm transition">Pesan</a>
                         </div>
-                        <a href="{{ route('booking.create') }}?kamar_id={{ $kamar->id }}&checkin={{ request()->query('checkin') }}&checkout={{ request()->query('checkout') }}&adults={{ request()->query('adults',2) }}&children={{ request()->query('children',0) }}" class="btn-pesan bg-purple-600 hover:bg-purple-700 text-white text-xs font-semibold px-4 py-2 rounded-lg shadow-sm transition">Pesan</a>
+                        <button type="button"
+                            class="btn-lihat mt-3 inline-flex items-center justify-center w-full rounded-lg border border-purple-200 bg-purple-50 px-3 py-2 text-xs font-semibold text-purple-700 transition hover:bg-purple-100"
+                            data-name="{{ $kamar->name }}"
+                            data-image="{{ $kamar->image ? asset($kamar->image) : asset('Asset/Room images/Superior 1 king bed/Kamar-supperior 1 king bed.jpg') }}"
+                            data-price="{{ $priceMap[$kamar->id] ?? ('Rp ' . number_format($kamar->price ?? 0,0,',','.')) }}"
+                            data-capacity="{{ $kamar->capacity }}"
+                            data-stock="{{ $kamar->stock ?? 0 }}"
+                            data-description="{{ str_replace('"', '&quot;', strip_tags($kamar->description ?? 'Deskripsi tidak tersedia.')) }}"
+                            data-url="{{ route('kamar.show', $kamar->id) }}">
+                            Lihat Kamar
+                        </button>
                     </div>
                 </div>
             @endforeach
@@ -87,6 +100,32 @@
             </div>
         </div>
 
+        <div id="detailModal" class="hidden fixed inset-0 bg-black/60 z-50 items-center justify-center px-4 py-6">
+            <div class="bg-white rounded-2xl w-full max-w-3xl overflow-hidden shadow-2xl">
+                <div class="relative">
+                    <img id="detailImage" src="" alt="" class="w-full h-56 object-cover">
+                    <button id="detailClose" type="button" class="absolute top-3 right-3 flex h-9 w-9 items-center justify-center rounded-full bg-white/90 text-gray-700 shadow hover:bg-white">✕</button>
+                </div>
+                <div class="p-6 md:p-8">
+                    <div class="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
+                        <div>
+                            <h3 id="detailName" class="text-2xl font-bold text-gray-900"></h3>
+                            <p id="detailPrice" class="mt-1 text-lg font-semibold text-purple-600"></p>
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            <span id="detailCapacity" class="rounded-full bg-gray-100 px-3 py-1 text-sm text-gray-700"></span>
+                            <span id="detailStock" class="rounded-full bg-gray-100 px-3 py-1 text-sm text-gray-700"></span>
+                        </div>
+                    </div>
+                    <p id="detailDescription" class="mt-5 text-sm leading-7 text-gray-600"></p>
+                    <div class="mt-6 flex flex-col gap-3 sm:flex-row">
+                        <a id="detailBookingLink" href="#" class="inline-flex items-center justify-center rounded-lg bg-purple-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-purple-700">Pesan Kamar</a>
+                        <a id="detailMoreLink" href="#" class="inline-flex items-center justify-center rounded-lg border border-gray-300 px-5 py-3 text-sm font-semibold text-gray-700 transition hover:bg-gray-50">Lihat Halaman Lengkap</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 @endsection
 
 @push('scripts')
@@ -102,6 +141,16 @@ document.addEventListener('DOMContentLoaded', function(){
     const modalAdults = document.getElementById('modal_adults');
     const modalChildren = document.getElementById('modal_children');
     const notifOk = document.getElementById('notif_ok');
+    const detailModal = document.getElementById('detailModal');
+    const detailClose = document.getElementById('detailClose');
+    const detailImage = document.getElementById('detailImage');
+    const detailName = document.getElementById('detailName');
+    const detailPrice = document.getElementById('detailPrice');
+    const detailCapacity = document.getElementById('detailCapacity');
+    const detailStock = document.getElementById('detailStock');
+    const detailDescription = document.getElementById('detailDescription');
+    const detailBookingLink = document.getElementById('detailBookingLink');
+    const detailMoreLink = document.getElementById('detailMoreLink');
     let pendingHref = null;
 
     // Notification function
@@ -167,6 +216,35 @@ document.addEventListener('DOMContentLoaded', function(){
     btnCancel.addEventListener('click', function(){ hideModal(); });
     modal.addEventListener('click', function(e){ if(e.target === modal) hideModal(); });
     notifOk.addEventListener('click', function(){ hideNotification(); });
+
+    function showDetailModal(button){
+        if(!detailModal || !button) return;
+        detailImage.src = button.dataset.image || '';
+        detailImage.alt = button.dataset.name || 'Kamar';
+        detailName.textContent = button.dataset.name || 'Kamar';
+        detailPrice.textContent = button.dataset.price || '';
+        detailCapacity.textContent = (button.dataset.capacity ? button.dataset.capacity + ' Tamu' : 'Kapasitas tidak tersedia');
+        detailStock.textContent = (button.dataset.stock && parseInt(button.dataset.stock) > 0) ? 'Sisa ' + button.dataset.stock : 'Stok Habis';
+        detailDescription.textContent = button.dataset.description || 'Informasi kamar belum tersedia.';
+        detailBookingLink.href = button.closest('div')?.querySelector('a.btn-pesan')?.href || '#';
+        detailMoreLink.href = button.dataset.url || '#';
+        detailModal.classList.remove('hidden');
+        detailModal.classList.add('flex');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function hideDetailModal(){
+        detailModal.classList.add('hidden');
+        detailModal.classList.remove('flex');
+        document.body.style.overflow = '';
+    }
+
+    document.querySelectorAll('button.btn-lihat').forEach(function(btn){
+        btn.addEventListener('click', function(){ showDetailModal(btn); });
+    });
+
+    if(detailClose){ detailClose.addEventListener('click', hideDetailModal); }
+    if(detailModal){ detailModal.addEventListener('click', function(e){ if(e.target === detailModal) hideDetailModal(); }); }
 
     // Initialize Flatpickr on modal inputs for better UX
     let fpCheckout = null;

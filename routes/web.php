@@ -173,8 +173,11 @@ use App\Http\Controllers\Admin\ReportController;
 Route::prefix('admin')->name('admin.')->middleware(['auth', EnsureAdminOrReceptionist::class])->group(function(){
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/kamar', [AdminKamarController::class, 'index'])->name('kamar.index');
+    Route::get('/kamar/create', [AdminKamarController::class, 'create'])->name('kamar.create');
+    Route::post('/kamar', [AdminKamarController::class, 'store'])->name('kamar.store');
     Route::get('/kamar/{id}/edit', [AdminKamarController::class, 'edit'])->name('kamar.edit');
     Route::put('/kamar/{id}', [AdminKamarController::class, 'update'])->name('kamar.update');
+    Route::delete('/kamar/{id}', [AdminKamarController::class, 'destroy'])->name('kamar.destroy');
 
     Route::get('/reservations', [AdminReservationController::class, 'index'])->name('reservations.index');
     Route::get('/reservations/{id}', [AdminReservationController::class, 'show'])->name('reservations.show');
@@ -184,12 +187,15 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', EnsureAdminOrRecepti
     
     // Report routes (dashboard shortcuts)
     Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
+    Route::get('/reports/all', [ReportController::class, 'all'])->name('reports.all');
+    Route::get('/reports/all/print', [ReportController::class, 'allPrint'])->name('reports.all.print');
     Route::get('/reports/reservations', [ReportController::class, 'reservations'])->name('reports.reservations');
     Route::get('/reports/reservations/print', [ReportController::class, 'reservationsPrint'])->name('reports.reservations.print');
     Route::get('/reports/revenue', [ReportController::class, 'revenue'])->name('reports.revenue');
     Route::get('/reports/occupancy', [ReportController::class, 'occupancy'])->name('reports.occupancy');
     Route::get('/reports/availability', [ReportController::class, 'availability'])->name('reports.availability');
     Route::get('/reports/guests', [ReportController::class, 'guests'])->name('reports.guests');
+    Route::get('/reports/guests/{id}', [ReportController::class, 'guestDetail'])->name('reports.guests.detail');
     Route::get('/reports/cancellations', [ReportController::class, 'cancellations'])->name('reports.cancellations');
     Route::get('/reports/payments', [ReportController::class, 'payments'])->name('reports.payments');
     Route::get('/reports/events', [ReportController::class, 'events'])->name('reports.events');

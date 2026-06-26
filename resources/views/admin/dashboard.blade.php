@@ -52,15 +52,41 @@
                     Jalan Pintas
                 </h3>
                 <div class="flex flex-col gap-3 max-h-56 overflow-y-auto pr-1">
-                    <a href="{{ route('admin.reports.reservations') }}" class="group flex items-center justify-between p-4 rounded-xl border border-gray-100 hover:border-purple-500 hover:bg-purple-50 transition-all bg-gray-50">
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-purple-600 shadow-sm group-hover:bg-purple-500 group-hover:text-white transition-colors">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-6a2 2 0 012-2h2a2 2 0 012 2v6M7 21h10"></path></svg>
+                    <div class="group relative">
+                        <details class="group">
+                            <summary class="list-none cursor-pointer group flex items-center justify-between p-4 rounded-xl border border-gray-100 hover:border-purple-500 hover:bg-purple-50 transition-all bg-gray-50">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-purple-600 shadow-sm group-hover:bg-purple-500 group-hover:text-white transition-colors">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-6a2 2 0 012-2h2a2 2 0 012 2v6M7 21h10"></path></svg>
+                                    </div>
+                                    <span class="font-bold text-gray-700 group-hover:text-purple-700">Kelola Laporan</span>
+                                </div>
+                                <svg class="w-5 h-5 text-gray-400 group-hover:text-purple-600 transition-transform group-open:rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                            </summary>
+                            <div class="absolute left-0 right-0 top-full mt-2 z-20 rounded-xl border border-gray-200 bg-white p-2 shadow-lg hidden group-open:block group-hover:block">
+                                <a href="{{ route('admin.reports.reservations') }}" class="flex items-center justify-between px-3 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-purple-50 hover:text-purple-700 transition">
+                                    <span>Laporan Reservasi</span>
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                                </a>
+                                <a href="{{ route('admin.reports.revenue') }}" class="flex items-center justify-between px-3 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-purple-50 hover:text-purple-700 transition">
+                                    <span>Pendapatan</span>
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                                </a>
+                                <a href="{{ route('admin.reports.occupancy') }}" class="flex items-center justify-between px-3 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-purple-50 hover:text-purple-700 transition">
+                                    <span>Occupancy Rate</span>
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                                </a>
+                                <a href="{{ route('admin.reports.guests') }}" class="flex items-center justify-between px-3 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-purple-50 hover:text-purple-700 transition">
+                                    <span>Laporan Tamu</span>
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                                </a>
+                                <a href="{{ route('admin.reports.all') }}" class="flex items-center justify-between px-3 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-purple-50 hover:text-purple-700 transition">
+                                    <span>Cetak Semua Laporan</span>
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                                </a>
                             </div>
-                            <span class="font-bold text-gray-700 group-hover:text-purple-700">Kelola Laporan</span>
-                        </div>
-                        <svg class="w-5 h-5 text-gray-400 group-hover:text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                    </a>
+                        </details>
+                    </div>
                     <a href="{{ route('admin.reservations.index') }}" class="group flex items-center justify-between p-4 rounded-xl border border-gray-100 hover:border-purple-500 hover:bg-purple-50 transition-all bg-gray-50">
                         <div class="flex items-center gap-3">
                             <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-purple-600 shadow-sm group-hover:bg-purple-500 group-hover:text-white transition-colors">
@@ -76,7 +102,10 @@
                             <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-purple-600 shadow-sm group-hover:bg-purple-500 group-hover:text-white transition-colors">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
                             </div>
-                            <span class="font-bold text-gray-700 group-hover:text-purple-700">Manajemen Kamar</span>
+                            <div>
+                                <span class="font-bold text-gray-700 group-hover:text-purple-700">Manajemen Kamar</span>
+                                <div class="text-xs text-gray-500 mt-0.5">{{ $roomsCount }} tipe · {{ $roomsUnits }} unit · {{ $availableUnits }} tersedia</div>
+                            </div>
                         </div>
                         <svg class="w-5 h-5 text-gray-400 group-hover:text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                     </a>
@@ -94,7 +123,7 @@
             </div>
             
             <!-- Menu Laporan (Baru) -->
-            <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-5 mt-4">
+            <div class="hidden lg:block bg-white rounded-2xl shadow-sm border border-gray-200 p-5 mt-4">
                 <h3 class="text-sm font-bold text-gray-800 mb-3 uppercase tracking-wide flex items-center gap-2">
                     <svg class="w-4 h-4 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-6a2 2 0 012-2h2a2 2 0 012 2v6M7 21h10"></path></svg>
                     Laporan

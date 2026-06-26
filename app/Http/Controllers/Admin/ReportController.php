@@ -215,14 +215,145 @@ class ReportController extends Controller
         return view('admin.reports.reservations-print', compact('reservations', 'kamars', 'chartLabels', 'chartCounts', 'chartRevenue', 'distinctStatuses'));
     }
 
+    public function all(Request $request)
+    {
+        $data = $this->buildAllReportData();
+
+        return view('admin.reports.all', $data);
+    }
+
+    public function allPrint(Request $request)
+    {
+        $data = $this->buildAllReportData();
+
+        return response()->view('admin.reports.all-print', $data);
+    }
+
+    protected function buildAllReportData(): array
+    {
+        $totalReservations = \App\Models\Reservasi::count();
+        $totalRevenue = \App\Models\Reservasi::whereRaw('LOWER(TRIM(status)) = ?', ['paid'])->sum('total_price');
+
+        $recentReservations = \App\Models\Reservasi::with(['kamar', 'user'])->orderBy('check_in', 'desc')->take(8)->get();
+
+        $totalUnits = \App\Models\Kamar::sum('stock');
+        $today = now()->toDateString();
+        $occupiedRooms = \App\Models\Reservasi::where('status', '!=', 'cancelled')
+            ->whereDate('check_in', '<=', $today)
+            ->whereDate('check_out', '>', $today)
+            ->count();
+        $occupancyRate = $totalUnits > 0 ? round(($occupiedRooms / $totalUnits) * 100, 1) : 0;
+
+        $roomStats = [];
+        foreach (\App\Models\Kamar::orderBy('name')->get() as $room) {
+            $used = \App\Models\Reservasi::where('kamar_id', $room->id)
+                ->where('status', '!=', 'cancelled')
+                ->whereDate('check_in', '<=', $today)
+                ->whereDate('check_out', '>', $today)
+                ->count();
+
+            $roomStats[] = [
+                'name' => $room->name,
+                'stock' => (int) $room->stock,
+                'used' => $used,
+                'available' => max(0, (int) $room->stock - $used),
+                'status' => $used >= (int) $room->stock ? 'Penuh' : ($used > 0 ? 'Sebagian' : 'Kosong'),
+            ];
+        }
+
+        $guestSummaries = \App\Models\Reservasi::with(['kamar', 'user'])
+            ->orderBy('check_in', 'desc')
+            ->take(8)
+            ->get()
+            ->map(function ($reservation) use ($today) {
+                $status = strtolower((string) ($reservation->status ?? ''));
+                $checkIn = $reservation->check_in ? now()->parse($reservation->check_in)->toDateString() : null;
+                $checkOut = $reservation->check_out ? now()->parse($reservation->check_out)->toDateString() : null;
+                $isActiveStay = $checkIn && $checkOut && $checkIn <= $today && $checkOut > $today;
+                $isCheckedInStatus = in_array($status, ['checked-in', 'check in', 'checked in', 'in house', 'in-house', 'ongoing']);
+                $isCompletedStatus = in_array($status, ['completed', 'checked-out', 'checked out', 'checkout', 'done']);
+                $isPastCheckout = $checkOut && $checkOut < $today;
+
+                $category = ($isCheckedInStatus || $isActiveStay) ? 'checked-in' : (($isCompletedStatus || $isPastCheckout) ? 'completed' : 'upcoming');
+                $label = $category === 'checked-in' ? 'Sedang Check-in' : ($category === 'completed' ? 'Selesai' : 'Akan Datang');
+
+                return [
+                    'name' => $reservation->user->name ?? 'Tanpa Nama',
+                    'room' => $reservation->kamar->name ?? '-',
+                    'label' => $label,
+                    'category' => $category,
+                    'check_in' => $reservation->check_in,
+                    'check_out' => $reservation->check_out,
+                ];
+            });
+
+        return [
+            'totalReservations' => $totalReservations,
+            'totalRevenue' => $totalRevenue,
+            'recentReservations' => $recentReservations,
+            'occupancyRate' => $occupancyRate,
+            'roomStats' => $roomStats,
+            'guestSummaries' => $guestSummaries,
+        ];
+    }
+
     public function revenue(Request $request)
     {
-        return $this->placeholder('Laporan Pendapatan');
+        $paidReservations = \App\Models\Reservasi::whereRaw('LOWER(TRIM(status)) = ?', ['paid'])->count();
+        $totalRevenue = \App\Models\Reservasi::whereRaw('LOWER(TRIM(status)) = ?', ['paid'])->sum('total_price');
+        $avgRevenue = $paidReservations > 0 ? round($totalRevenue / $paidReservations, 0) : 0;
+
+        $trend = [];
+        $maxRevenue = 0;
+        for ($i = 6; $i >= 0; $i--) {
+            $date = now()->subDays($i)->startOfDay();
+            $revenue = \App\Models\Reservasi::whereDate('check_in', $date)
+                ->whereRaw('LOWER(TRIM(status)) = ?', ['paid'])
+                ->sum('total_price');
+
+            $trend[] = [
+                'label' => $date->translatedFormat('d M'),
+                'revenue' => (float) $revenue,
+            ];
+            $maxRevenue = max($maxRevenue, (float) $revenue);
+        }
+
+        return view('admin.reports.revenue', compact('paidReservations', 'totalRevenue', 'avgRevenue', 'trend', 'maxRevenue'));
     }
 
     public function occupancy(Request $request)
     {
-        return $this->placeholder('Occupancy Rate');
+        $totalRooms = \App\Models\Kamar::count();
+        $totalUnits = \App\Models\Kamar::sum('stock');
+        $today = now()->toDateString();
+
+        $activeReservations = \App\Models\Reservasi::where('status', '!=', 'cancelled')
+            ->whereDate('check_in', '<=', $today)
+            ->whereDate('check_out', '>', $today)
+            ->count();
+
+        $occupiedRooms = $activeReservations;
+        $availableRooms = max(0, $totalUnits - $occupiedRooms);
+        $occupancyRate = $totalUnits > 0 ? round(($occupiedRooms / $totalUnits) * 100, 1) : 0;
+
+        $roomStats = [];
+        foreach (\App\Models\Kamar::orderBy('name')->get() as $room) {
+            $used = \App\Models\Reservasi::where('kamar_id', $room->id)
+                ->where('status', '!=', 'cancelled')
+                ->whereDate('check_in', '<=', $today)
+                ->whereDate('check_out', '>', $today)
+                ->count();
+
+            $roomStats[] = [
+                'name' => $room->name,
+                'stock' => (int) $room->stock,
+                'used' => $used,
+                'available' => max(0, (int) $room->stock - $used),
+                'status' => $used >= (int) $room->stock ? 'Penuh' : ($used > 0 ? 'Sebagian' : 'Kosong'),
+            ];
+        }
+
+        return view('admin.reports.occupancy', compact('totalRooms', 'totalUnits', 'occupiedRooms', 'availableRooms', 'occupancyRate', 'roomStats'));
     }
 
     public function availability(Request $request)
@@ -232,7 +363,79 @@ class ReportController extends Controller
 
     public function guests(Request $request)
     {
-        return $this->placeholder('Laporan Tamu');
+        $query = \App\Models\Reservasi::with(['kamar', 'user'])
+            ->whereNotNull('user_id')
+            ->whereHas('user');
+
+        if ($request->filled('date_from')) {
+            $query->whereDate('check_in', '>=', $request->query('date_from'));
+        }
+        if ($request->filled('date_to')) {
+            $query->whereDate('check_out', '<=', $request->query('date_to'));
+        }
+        if ($request->filled('status')) {
+            $status = trim(strtolower($request->query('status')));
+            $query->whereRaw('LOWER(TRIM(status)) = ?', [$status]);
+        }
+        if ($request->filled('kamar_id')) {
+            $query->where('kamar_id', $request->query('kamar_id'));
+        }
+
+        $reservations = $query->orderBy('check_in', 'desc')->get();
+        $kamars = \App\Models\Kamar::orderBy('name')->get();
+
+        $guestReservations = $reservations->map(function ($reservation) {
+            $user = $reservation->user;
+
+            return [
+                'id' => $reservation->id,
+                'reservation_id' => $reservation->id,
+                'reservation_code' => $reservation->reservation_code ?? '-',
+                'guest_name' => $user->name ?? 'Tanpa Nama',
+                'guest_email' => $user->email ?? '-',
+                'guest_phone' => $user->no_hp ?? '-',
+                'guest_id' => $user->nik_ktp ?? '-',
+                'room' => $reservation->kamar->name ?? '-',
+                'check_in' => $reservation->check_in,
+                'check_out' => $reservation->check_out,
+                'nights' => $reservation->nights,
+                'adults' => $reservation->adults,
+                'children' => $reservation->children,
+                'status' => $reservation->status,
+            ];
+        });
+
+        $today = now()->toDateString();
+        $totalGuests = $guestReservations->count();
+        $checkedInGuests = $guestReservations->filter(function ($guest) use ($today) {
+            $status = strtolower((string) ($guest['status'] ?? ''));
+            $checkIn = $guest['check_in'] ? now()->parse($guest['check_in'])->toDateString() : null;
+            $checkOut = $guest['check_out'] ? now()->parse($guest['check_out'])->toDateString() : null;
+
+            $isActiveStay = $checkIn && $checkOut && $checkIn <= $today && $checkOut > $today;
+            $isCheckedInStatus = in_array($status, ['checked-in', 'check in', 'checked in', 'in house', 'in-house', 'ongoing']);
+
+            return $isCheckedInStatus || $isActiveStay;
+        })->count();
+
+        $completedGuests = $guestReservations->filter(function ($guest) use ($today) {
+            $status = strtolower((string) ($guest['status'] ?? ''));
+            $checkOut = $guest['check_out'] ? now()->parse($guest['check_out'])->toDateString() : null;
+
+            $isCompletedStatus = in_array($status, ['completed', 'checked-out', 'checked out', 'checkout', 'done']);
+            $isPastCheckout = $checkOut && $checkOut < $today;
+
+            return $isCompletedStatus || $isPastCheckout;
+        })->count();
+
+        return view('admin.reports.guests', compact('guestReservations', 'kamars', 'totalGuests', 'checkedInGuests', 'completedGuests'));
+    }
+
+    public function guestDetail(Request $request, $id)
+    {
+        $reservation = \App\Models\Reservasi::with(['kamar', 'user'])->findOrFail($id);
+
+        return view('admin.reports.guest-detail', compact('reservation'));
     }
 
     public function cancellations(Request $request)
